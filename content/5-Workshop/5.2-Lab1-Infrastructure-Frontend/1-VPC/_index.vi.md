@@ -39,9 +39,23 @@ Trong phần này, chúng ta sẽ tạo và cấu hình Virtual Private Cloud (V
 
 6. Kiểm tra lại cấu hình ở khung preview bên phải và nhấn nút **Create VPC**.
 
+### Khởi tạo NAT Gateway (Nếu tạo thủ công)
+Trong trường hợp bạn chọn **None** ở phần NAT gateways khi tạo VPC (để tiết kiệm chi phí ban đầu) và muốn tạo lại thủ công ở các Lab sau, hãy làm theo các bước sau:
+
+1. Truy cập dịch vụ **VPC**, chọn **NAT gateways** ở menu bên trái.
+2. Nhấn **Create NAT gateway**.
+3. Cấu hình theo thông số sau:
+   - **Name**: `genzite-nat-gw`
+   - **Availability mode**: `Zonal`
+   - **Subnet**: Chọn Public Subnet của bạn (ví dụ: `genzite-subnet-public1-us-east-1a`)
+   - **Connectivity type**: `Public`
+   - **Elastic IP allocation ID**: Nhấn nút **Allocate Elastic IP**
+4. Nhấn **Create NAT gateway** và đợi vài phút để trạng thái chuyển sang **Available**.
+*(Lưu ý: Nếu tạo thủ công, bạn cần vào Route Table của Private Subnet và trỏ route `0.0.0.0/0` tới NAT Gateway vừa tạo).*
+
 ## Bước 2: Kiểm tra lại tài nguyên mạng
 
-Quá trình tạo sẽ mất vài phút do AWS cần thời gian khởi tạo NAT Gateway. Khi hoàn tất, hãy kiểm tra:
+Quá trình tạo sẽ mất vài phút do AWS cần thời gian khởi tạo tài nguyên. Khi hoàn tất, hãy kiểm tra:
 
 1. **Subnets**: Đi tới mục **Subnets** ở menu trái và đảm bảo bạn có 1 Public Subnet và 1 Private Subnet được gán với VPC `genzite-vpc`.
 2. **Internet Gateways**: Đi tới **Internet Gateways**, đảm bảo có 1 IGW đang ở trạng thái **Attached** vào VPC `genzite-vpc`.

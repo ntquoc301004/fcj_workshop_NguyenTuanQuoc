@@ -37,11 +37,25 @@ In this section, we will create and configure the Virtual Private Cloud (VPC) fo
 
 ![Create VPC Step 2](./images/create-vpc-step2.png)
 
-6. Review your configuration in the preview pane on the right and click **Create VPC**.
+6. Review the configuration in the preview pane on the right and click **Create VPC**.
+
+### Create NAT Gateway (If done manually)
+If you chose **None** for NAT gateways during VPC creation (to save initial costs) and want to create it manually in later Labs, follow these steps:
+
+1. Go to the **VPC** service, select **NAT gateways** from the left menu.
+2. Click **Create NAT gateway**.
+3. Configure the following settings:
+   - **Name**: `genzite-nat-gw`
+   - **Availability mode**: `Zonal`
+   - **Subnet**: Select your Public Subnet (e.g., `genzite-subnet-public1-us-east-1a`)
+   - **Connectivity type**: `Public`
+   - **Elastic IP allocation ID**: Click the **Allocate Elastic IP** button
+4. Click **Create NAT gateway** and wait a few minutes for the status to change to **Available**.
+*(Note: If created manually, you must go to your Private Subnet's Route Table and add a route for `0.0.0.0/0` pointing to the newly created NAT Gateway).*
 
 ## Step 2: Verify Network Resources
 
-The creation process will take a few minutes as AWS needs to provision the NAT Gateway. Once finished, verify the following:
+The creation process will take a few minutes as AWS needs to provision the resources. Once finished, verify the following:
 
 1. **Subnets**: Go to **Subnets** in the left menu and ensure you have 1 Public Subnet and 1 Private Subnet associated with your `genzite-vpc`.
 2. **Internet Gateways**: Go to **Internet Gateways** and ensure 1 IGW is in the **Attached** state to your `genzite-vpc`.
