@@ -1,57 +1,38 @@
+
 ---
-title: "Week 5 Worklog"
-date: 2024-01-01
-weight: 1
+title: "Worklog Week 5"
+date: 2026-05-18
+weight: 5
 chapter: false
 pre: " <b> 1.5. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
 
-### Week 5 Objectives:
+### Objectives of Week 5:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Reinforce the AWS services learned in previous weeks.
+* Continue practicing AWS resource deployment and management.
+* Improve hands-on skills by completing AWS laboratory exercises.
+* Document the implementation process and summarize weekly outcomes.
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Tasks for This Week:
 
+| Day | Tasks | Start Date | Completion Date | Reference |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
+| Mon | - Attend the weekly briefing session.<br>- Review Amazon EC2, Amazon S3, AWS IAM, and the labs completed in previous weeks. | 18/05/2026 | 18/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Tue | - Perform AWS hands-on labs.<br>&emsp;+ Launch and configure an EC2 instance.<br>&emsp;+ Test SSH connectivity.<br>&emsp;+ Configure Security Groups. | 19/05/2026 | 20/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Thu | - Explore additional features of Amazon S3 and AWS IAM.<br>- Practice configuring access permissions and managing AWS resources.<br>- Record issues encountered during the lab exercises and document the solutions. | 21/05/2026 | 21/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Fri | - Complete the remaining AWS labs.<br>- Review all deployed resources.<br>- Update the weekly worklog and summarize the learning outcomes. | 22/05/2026 | 23/05/2026 |  |
 
-### Week 5 Achievements:
+### Achievements of Week 5:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Reinforced knowledge of Amazon EC2, Amazon S3, and AWS IAM.
 
-* Successfully created and configured an AWS Free Tier account.
+* Successfully completed the assigned AWS hands-on labs.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Improved practical skills in deploying and managing basic AWS resources.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Enhanced troubleshooting skills by identifying and resolving common configuration issues.
 
-* Used AWS CLI to perform basic operations such as:
+* Completed the weekly documentation and updated the worklog with implementation results.
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...

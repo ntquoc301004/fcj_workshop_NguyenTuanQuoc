@@ -1,59 +1,41 @@
+
 ---
 title: "Worklog Tuần 9"
-date: 2024-01-01
-weight: 1
+date: 2026-06-15
+weight: 9
 chapter: false
 pre: " <b> 1.9. </b> "
 ---
+
 {{% notice warning %}}
 ⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
 {{% /notice %}}
 
-
 ### Mục tiêu tuần 9:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Chuẩn bị môi trường phát triển Backend cho dự án.
+* Thiết kế cơ sở dữ liệu và kiến trúc Backend.
+* Xây dựng các module và API đầu tiên của hệ thống.
+* Tạo nền tảng để phát triển các chức năng ở những tuần tiếp theo.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
 
+| Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
+| 2 | - Họp nhóm để thống nhất kế hoạch phát triển Backend.<br>- Khởi tạo dự án, cấu hình môi trường phát triển và cài đặt các thư viện cần thiết.<br>- Khởi tạo Git Repository và phân chia công việc cho các thành viên. | 15/06/2026 | 15/06/2026 |  |
+| 3 | - Thiết kế cơ sở dữ liệu và các bảng chính của hệ thống.<br>- Thiết lập kết nối cơ sở dữ liệu.<br>- Cấu hình các biến môi trường (.env) và cấu trúc thư mục dự án. | 16/06/2026 | 16/06/2026 |  |
+| 5 | - Xây dựng các module Backend đầu tiên.<br>- Phát triển chức năng xác thực, phân quyền người dùng.<br>- Xây dựng các API REST cơ bản phục vụ hệ thống. | 18/06/2026 | 18/06/2026 |  |
+| 6 | - Kiểm thử các API bằng Postman.<br>- Kiểm tra thao tác với cơ sở dữ liệu và xử lý các lỗi ban đầu.<br>- Refactor mã nguồn để tối ưu cấu trúc dự án. | 19/06/2026 | 19/06/2026 |  |
+| 7 | - Rà soát các chức năng Backend đã hoàn thành cùng nhóm.<br>- Cập nhật tài liệu kỹ thuật và Worklog.<br>- Lập kế hoạch phát triển các chức năng còn lại cho tuần tiếp theo. | 20/06/2026 | 20/06/2026 |  |
 
 ### Kết quả đạt được tuần 9:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Hoàn thành việc khởi tạo dự án và môi trường phát triển Backend.
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Thiết kế cơ sở dữ liệu và xây dựng kiến trúc Backend ban đầu.
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Phát triển thành công các module đầu tiên, bao gồm xác thực người dùng và các API cơ bản.
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Kiểm thử thành công các API và đảm bảo kết nối ổn định với cơ sở dữ liệu.
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Hoàn thiện nền tảng Backend, sẵn sàng phát triển các chức năng chính trong các tuần tiếp theo.

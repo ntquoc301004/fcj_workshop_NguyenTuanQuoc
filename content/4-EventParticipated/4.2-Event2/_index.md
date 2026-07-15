@@ -1,14 +1,11 @@
 ---
-title: "Event 2"
+title: "FCAJ Community Day 2026"
 date: 2024-05-23
 weight: 2
 chapter: false
 pre: " <b> 4.2. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is provided for reference only. Please **do not copy it directly** into your report, including this warning.
-{{% /notice %}}
 
 # Reflection Report – “FCAJ Community Day 2026”
 

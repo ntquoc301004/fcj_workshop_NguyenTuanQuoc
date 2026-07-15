@@ -1,57 +1,38 @@
+
 ---
-title: "Week 6 Worklog"
-date: 2024-01-01
-weight: 1
+title: "Worklog Week 6"
+date: 2026-05-25
+weight: 6
 chapter: false
 pre: " <b> 1.6. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
 
-### Week 6 Objectives:
+### Objectives of Week 6:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Reinforce knowledge of AWS services learned in previous weeks.
+* Continue practicing AWS resource deployment and management.
+* Improve troubleshooting and system administration skills.
+* Complete the assigned laboratory exercises in the First Cloud Journey program.
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Tasks for This Week:
 
+| Day | Tasks | Start Date | Completion Date | Reference |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
+| Mon | - Review the topics covered in previous weeks.<br>- Verify the status of Amazon EC2 instances, Amazon S3 buckets, and AWS IAM configurations.<br>- Prepare the environment for upcoming lab exercises. | 25/05/2026 | 25/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Tue | - Perform AWS hands-on labs.<br>&emsp;+ Launch and configure Amazon EC2 instances.<br>&emsp;+ Configure Security Groups.<br>&emsp;+ Test SSH connectivity. | 26/05/2026 | 27/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Thu | - Practice managing Amazon S3 resources.<br>- Configure bucket access permissions.<br>- Review and manage user permissions using AWS IAM. | 28/05/2026 | 28/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Fri | - Troubleshoot issues encountered during the lab exercises.<br>- Optimize AWS resource configurations and verify system stability. | 29/05/2026 | 29/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Sat | - Summarize the weekly lab results.<br>- Update the weekly worklog and organize supporting documents and screenshots. | 30/05/2026 | 30/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
 
-### Week 6 Achievements:
+### Achievements of Week 6:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Reinforced knowledge of Amazon EC2, Amazon S3, and AWS IAM.
 
-* Successfully created and configured an AWS Free Tier account.
+* Successfully completed the assigned laboratory exercises in the First Cloud Journey program.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Improved practical skills in deploying, configuring, and managing AWS resources.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Enhanced troubleshooting skills by resolving common configuration and connectivity issues.
 
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Completed the weekly documentation and updated the worklog with implementation results.

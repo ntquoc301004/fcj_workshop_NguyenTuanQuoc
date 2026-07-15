@@ -1,126 +1,115 @@
 ---
-title: "Event 1"
-date: 2024-01-01
+title: "FCAJ Community Day 2026"
+date: 2026-05-09
 weight: 1
 chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** into your report, including this warning.
-{{% /notice %}}
 
-# Summary Report: “GenAI-powered App-DB Modernization workshop”
+# Reflection Report – “FCAJ Community Day 2026”
 
-### Event Objectives
+## Purpose of the Event
 
-- Share best practices in modern application design
-- Introduce Domain-Driven Design (DDD) and event-driven architecture
-- Provide guidance on selecting the right compute services
-- Present AI tools to support the development lifecycle
+FCAJ Community Day 2026 was organized to bring together students, young software engineers, and technology enthusiasts who are passionate about Cloud Computing and Artificial Intelligence. The event aimed to provide practical knowledge, improve participants' understanding of AI-assisted software development, and help them build the right mindset for long-term career growth.
 
-### Speakers
+Besides technical sessions, the program focused on personal development, productivity improvement, and modern software engineering practices. Participants were encouraged to continuously learn, embrace new technologies, and prepare themselves for the rapidly evolving AI era.
 
-- **Jignesh Shah** – Director, Open Source Databases
-- **Erica Liu** – Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** – Assc. Specialist SA, Serverless Amazon Web Services
+## Speakers
 
-### Key Highlights
+The event featured experienced professionals from different technology fields:
 
-#### Identifying the drawbacks of legacy application architecture
+- **Mr. Long** – Behavioral Psychology Expert, sharing techniques for improving productivity and learning efficiency.
+- **Mr. Thinh** – Cloud & AI Specialist, presenting Ultimate Prompt Engineering.
+- **Mr. Khang** – Solution Architect at Cloud Kinetics, sharing career development and hiring perspectives.
+- **Ms. Thao** – Software Developer at VIB, introducing the BMX Method for AI-assisted software development.
 
-- Long product release cycles → Lost revenue/missed opportunities  
-- Inefficient operations → Reduced productivity, higher costs  
-- Non-compliance with security regulations → Security breaches, loss of reputation  
+## Key Highlights
 
-#### Transitioning to modern application architecture – Microservices
+### Learning Productivity and Dopamine
 
-Migrating to a modular system — each function is an **independent service** communicating via **events**, built on three core pillars:
+- Understanding how dopamine influences learning motivation and daily habits.
+- Breaking large goals into smaller milestones to build sustainable learning habits.
+- Creating positive feedback loops to stay motivated during long-term learning.
 
-- **Queue Management**: Handle asynchronous tasks  
-- **Caching Strategy**: Optimize performance  
-- **Message Handling**: Flexible inter-service communication  
+### Ultimate Prompt Engineering
 
-#### Domain-Driven Design (DDD)
+- Learning the framework of **Role – Instruction – Context – Input/Output Format – Constraints** for writing effective prompts.
+- Understanding that AI performs best when provided with clear objectives and sufficient context.
+- Viewing AI as a productivity amplifier rather than a replacement for human expertise.
 
-- **Four-step method**: Identify domain events → arrange timeline → identify actors → define bounded contexts  
-- **Bookstore case study**: Demonstrates real-world DDD application  
-- **Context mapping**: 7 patterns for integrating bounded contexts  
+### Foundation-First Mindset
 
-#### Event-Driven Architecture
+- Employers value problem-solving ability and fundamental knowledge more than familiarity with specific tools.
+- Always ask **"Why?"** before selecting a technology or cloud service.
+- Understanding architectural decisions is more valuable than simply knowing deployment procedures.
 
-- **3 integration patterns**: Publish/Subscribe, Point-to-point, Streaming  
-- **Benefits**: Loose coupling, scalability, resilience  
-- **Sync vs async comparison**: Understanding the trade-offs  
+### BMX Method for AI Development
 
-#### Compute Evolution
+- Introducing a documentation-first approach before AI-assisted coding.
+- Using structured documentation to reduce AI hallucinations in large software projects.
+- Improving collaboration between developers and AI tools through better project organization.
 
-- **Shared Responsibility Model**: EC2 → ECS → Fargate → Lambda  
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value  
-- **Functions vs Containers**: Criteria for appropriate choice  
+## What I Learned
 
-#### Amazon Q Developer
+### Self-Management Skills
 
-- **SDLC automation**: From planning to maintenance  
-- **Code transformation**: Java upgrade, .NET modernization  
-- **AWS Transform agents**: VMware, Mainframe, .NET migration  
+- Applying the **Two-Minute Rule** to overcome procrastination.
+- Building consistent daily learning habits through small but continuous progress.
+- Staying disciplined is essential for long-term improvement.
 
-### Key Takeaways
+### Working with AI
 
-#### Design Mindset
+- AI is an excellent assistant for brainstorming ideas and improving productivity.
+- Developers remain responsible for verifying, testing, and validating AI-generated results.
+- Critical thinking cannot be outsourced to AI.
 
-- **Business-first approach**: Always start from the business domain, not the technology  
-- **Ubiquitous language**: Importance of a shared vocabulary between business and tech teams  
-- **Bounded contexts**: Identifying and managing complexity in large systems  
+### Professional Integrity
 
-#### Technical Architecture
+- Focus on delivering high-quality software instead of only meeting minimum requirements.
+- Consider edge cases and unexpected scenarios when designing software systems.
+- Professional responsibility is one of the most valuable qualities of an engineer.
 
-- **Event storming technique**: Practical method for modeling business processes  
-- Use **event-driven communication** instead of synchronous calls  
-- **Integration patterns**: When to use sync, async, pub/sub, streaming  
-- **Compute spectrum**: Criteria for choosing between VM, containers, and serverless  
+### Career Development
 
-#### Modernization Strategy
+- A successful career is built not only on salary but also on experience, knowledge, networking, and continuous growth.
+- Participating in technology communities helps expand both technical knowledge and professional relationships.
+- Lifelong learning is the key to staying competitive in the technology industry.
 
-- **Phased approach**: No rushing — follow a clear roadmap  
-- **7Rs framework**: Multiple modernization paths depending on the application  
-- **ROI measurement**: Cost reduction + business agility  
+## Applying the Knowledge
 
-### Applying to Work
+After attending FCAJ Community Day 2026, I identified several practical ways to apply what I learned:
 
-- **Apply DDD** to current projects: Event storming sessions with business teams  
-- **Refactor microservices**: Use bounded contexts to define service boundaries  
-- **Implement event-driven patterns**: Replace some sync calls with async messaging  
-- **Adopt serverless**: Pilot AWS Lambda for suitable use cases  
-- **Try Amazon Q Developer**: Integrate into the dev workflow to boost productivity  
+- Break down complex AWS services into smaller learning objectives to improve learning efficiency.
+- Apply Prompt Engineering techniques such as structured prompts and Chain of Thought reasoning when working with AI.
+- Always ask **"Why?"** before making architectural or technical decisions.
+- Participate in team projects to improve collaboration, communication, and project management skills.
+- Continue studying Cloud Computing, Artificial Intelligence, and Software Architecture while building practical side projects.
 
-### Event Experience
+## Event Experience
 
-Attending the **“GenAI-powered App-DB Modernization”** workshop was extremely valuable, giving me a comprehensive view of modernizing applications and databases using advanced methods and tools. Key experiences included:
+Participating in **FCAJ Community Day 2026** was an inspiring and valuable experience. The event created an energetic learning environment where students, developers, and industry experts openly shared their knowledge and experiences.
 
-#### Learning from highly skilled speakers
-- Experts from AWS and major tech organizations shared **best practices** in modern application design.  
-- Through real-world case studies, I gained a deeper understanding of applying **DDD** and **Event-Driven Architecture** to large projects.  
+### Positive Learning Environment
 
-#### Hands-on technical exposure
-- Participating in **event storming** sessions helped me visualize how to **model business processes** into domain events.  
-- Learned how to **split microservices** and define **bounded contexts** to manage large-system complexity.  
-- Understood trade-offs between **synchronous and asynchronous communication** and integration patterns like **pub/sub, point-to-point, streaming**.  
+- Participants actively asked questions and exchanged ideas with the speakers.
+- The atmosphere encouraged curiosity, discussion, and continuous learning.
+- Networking opportunities allowed attendees to connect with experienced professionals.
 
-#### Leveraging modern tools
-- Explored **Amazon Q Developer**, an AI tool for SDLC support from planning to maintenance.  
-- Learned to **automate code transformation** and pilot serverless with **AWS Lambda** to improve productivity.  
+### Practical Knowledge
 
-#### Networking and discussions
-- The workshop offered opportunities to exchange ideas with experts, peers, and business teams, enhancing the **ubiquitous language** between business and tech.  
-- Real-world examples reinforced the importance of the **business-first approach** rather than focusing solely on technology.  
+- Real-world examples made complex AI and cloud concepts easier to understand.
+- Practical demonstrations illustrated how AI can improve software development workflows.
+- The sessions emphasized solving business problems rather than simply using new technologies.
 
-#### Lessons learned
-- Applying DDD and event-driven patterns reduces **coupling** while improving **scalability** and **resilience**.  
-- Modernization requires a **phased approach** with **ROI measurement**; rushing the process can be risky.  
-- AI tools like Amazon Q Developer can significantly **boost productivity** when integrated into the current workflow.  
+### Career Inspiration
 
-#### Some event photos
-*Add your event photos here*  
+- The speakers shared valuable insights from their professional journeys and industry experiences.
+- Their advice motivated participants to strengthen their technical foundations and continuously improve themselves.
+- The event highlighted the importance of adaptability, curiosity, and lifelong learning in the AI era.
 
-> Overall, the event not only provided technical knowledge but also helped me reshape my thinking about application design, system modernization, and cross-team collaboration.
+## Event Photos
+
+![FCAJ Community Day 2026 Photo](/images/4-EventParticipated/4.1-Event1/event-aws-1.jpg)
+
+> Overall, FCAJ Community Day 2026 provided valuable insights into Artificial Intelligence, Cloud Computing, Prompt Engineering, and modern software development practices. Beyond the technical knowledge, the event inspired me to strengthen my learning mindset, improve my professional skills, and continue building practical experience to prepare for a successful career in the rapidly evolving technology industry.

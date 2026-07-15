@@ -1,14 +1,11 @@
 ---
-title: "Event 3"
+title: "FCAJ Community Day 2026"
 date: 2026-07-04
 weight: 3
 chapter: false
 pre: " <b> 4.3. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is provided for reference only. Please **do not copy it directly** into your report, including this warning.
-{{% /notice %}}
 
 # Reflection Report – “AWS Study Tour: Cloud Architectures and Career Trends”
 
@@ -115,7 +112,5 @@ Participating in the **AWS Study Tour: Cloud Architectures and Career Trends** w
 ## Event Photos
 
 ![AWS Event 3.1](/images/4-EventParticipated/4.3-Event3/aws-event3.jpg)
-![AWS Event 3.2](/images/4-EventParticipated/4.3-Event3/aws-event3.1.jpg)
-![AWS Event 3.3](/images/4-EventParticipated/4.3-Event3/aws-event3.2.jpg)
 
 > Overall, the AWS Study Tour 2026 was a valuable learning experience that expanded my understanding of Cloud Computing, Artificial Intelligence, and modern software architecture. Beyond the technical knowledge, the event motivated me to continue developing my technical expertise, strengthen my professional network, and prepare myself for future career opportunities in the cloud computing industry.

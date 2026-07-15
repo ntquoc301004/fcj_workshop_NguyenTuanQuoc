@@ -5,126 +5,219 @@ weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-In this section, you need to summarize the contents of the workshop that you **plan** to conduct.
-
-# Genzite: Next-Generation AI No-Code Application Builder
-## A Cloud-Native AWS Infrastructure Solution for AI-Driven App Generation and Recruitment Intelligence
+# Genzite: AI-Powered No-Code Web Interface Builder
+## A Cloud-Native AWS Infrastructure Solution for AI-Driven Frontend Generation
 
 ### 1. Executive Summary
-Genzite is a next-generation AI No-Code platform designed to empower non-technical users to build, launch, and operate fully functional web applications using simple natural language instructions. Rather than merely creating static landing pages, Genzite automatically generates front-end user interfaces, custom backend APIs, dynamic database collections (CMS), and complex business workflows. 
+Genzite is an AI No-Code platform that enables non-technical users to create and operate fully functional web interfaces simply by describing their requirements in natural language. Rather than restricting users to fixed templates, Genzite leverages **Google Gemini AI** to automatically parse a user prompt and generate a structured JSON layout, which is then rendered into a live React interface directly in the browser.
 
-Furthermore, Genzite embeds AI Recruitment Intelligence modules including a Resume Builder, automated CV-to-JD compatibility matching, and mock conversational interviews. Hosted on AWS using a hybrid database architecture (Relational SQL + PostgreSQL JSONB) and a microservices monorepo setup (NestJS, React 18, Kafka, Redis, and BullMQ), the platform utilizes Google Gemini and Groq (Llama3) for high-speed application generation and analysis. Security, traffic routing, caching, and scalability are managed via Route 53, CloudFront, Cognito, ALB, EC2, RDS PostgreSQL, and ElastiCache.
+The system is deployed entirely on AWS with a clear separation of concerns: the **React SPA Frontend** is stored on **Amazon S3** and distributed globally via **Amazon CloudFront**, while the **NestJS backend API** running on **EC2** handles AI orchestration, async job queue management, and data persistence into **Amazon RDS PostgreSQL**. User authentication is managed by **Amazon Cognito**. AI web generation tasks are processed **asynchronously** via **BullMQ + Amazon ElastiCache Redis**, with real-time progress streamed back to the client over **SSE**. Internal events between services are propagated via **Apache Kafka**.
+
+The project scope is focused on the core delivery loop: **User submits prompt → Job queued in BullMQ → AI Worker calls Gemini to generate JSON layout → System saves & renders UI → User edits canvas**.
+
+---
 
 ### 2. Problem Statement
-#### What’s the Problem?
-Developing custom web applications requires professional programming skills, high budgets, and lengthy development timelines. Existing visual website builders (e.g., WordPress, Wix) are restricted to pre-defined layouts and lack the ability to dynamically design databases, generate functional backend APIs, orchestrate complex business workflows, or provide native AI services (such as mock interviews and CV analysis). Additionally, manual database migrations and deployment setups make expanding dynamic content forms slow and error-prone for non-technical administrators.
+#### What's the Problem?
+Building a custom website requires professional knowledge of HTML, CSS, and JavaScript—along with significant budget for developer resources. Popular drag-and-drop tools (WordPress, Wix, Squarespace) are easy to use but constrained by fixed layouts, limited customization depth, and no ability to automatically generate interface designs from plain text descriptions.
+
+Non-technical users currently have no tool that allows them to:
+- Describe a website in plain language and receive a complete interface immediately
+- Visually edit each UI component directly on a canvas
+- Manage their own website content without writing any code
 
 #### The Solution
-Genzite solves these barriers by integrating a Dual-LLM architecture (Google Gemini for reasoning and coding; Groq Llama3 for high-speed reflection) that translates natural language prompts into structural components. To avoid slow database migrations, Genzite utilizes PostgreSQL JSONB fields to model dynamic CMS collections and resume profiles on the fly. 
+Genzite addresses this with a four-step process:
 
-To host this platform reliably and cost-effective, Genzite is built as a microservices architecture hosted on AWS:
-- **Client Delivery**: React SPA static assets are stored in Amazon S3 and distributed globally through Amazon CloudFront CDN.
-- **Compute Layer**: Node.js/NestJS backend microservices run in a private subnet on EC2 instances behind an Application Load Balancer (ALB).
-- **Data Layer**: Relational data (users, billing, site configuration) is stored in Amazon RDS PostgreSQL, while dynamic data uses JSONB columns. Caching, sessions, and asynchronous job queues are managed via Amazon ElastiCache Redis (BullMQ).
-- **External AI Integration**: Safe outbound calls to Google Gemini and Groq API are routed through a NAT Gateway from the private compute subnets.
-- **User Management**: Secured by Amazon Cognito for authentication and role-based access control.
+1. **AI Layout Generation (Async)**: The user submits a prompt. The API immediately pushes a **Job** into the **BullMQ** queue (backed by **Amazon ElastiCache Redis**) and returns a `jobId` instantly—without blocking the user. An **AI Worker** running in the background pops the job, calls the **Google Gemini API** to generate the JSON layout, persists the result, and emits a completion event.
+2. **Progress Tracking (SSE)**: The Frontend opens a **Server-Sent Events** connection using the `jobId`. When the AI Worker completes, the SSE stream pushes a `100% Done` notification with the layout to the client.
+3. **Render & Edit**: The Frontend consumes the JSON layout and renders an interactive canvas. Users drag, drop, and edit each widget visually.
+4. **Cross-Service Events (Kafka)**: When a new site is saved, the **Site Service** publishes a `SiteCreated` event to **Apache Kafka**. Downstream services (e.g., Notification Service) consume this event to send a welcome email—without blocking the main creation flow.
 
-#### Benefits and Return on Investment (ROI)
-The Genzite AWS solution enables businesses and creators to launch specialized web systems (e.g., e-commerce, recruitment hubs, dashboards) within seconds instead of weeks. By shifting binary file uploads directly to Amazon S3 via Presigned URLs, the backend compute load is bypassed, saving bandwidth and infrastructure costs. 
+All React static assets are stored on **S3** and served via **CloudFront** for fast global delivery. JSON layout data is persisted in **RDS PostgreSQL** via the backend API on **EC2**.
 
-For the platform operators, Genzite provides a clear cost-optimized pathway:
-- **MVP Cost**: An entry-level staging environment on AWS costs only **~$35–$60/month** by using single-AZ small instance types and skipping NAT Gateways and dedicated Redis setups.
-- **Production Cost**: Scalable to **~$150–$350/month** with Multi-AZ redundancy, Auto Scaling Groups (ASG), and isolated networking.
-The platform achieves a break-even point in 3–6 months by drastically reducing developer headcount and speeding up application delivery.
+#### Benefits
+- **Zero coding required**: Users can produce a professional-looking web interface without any programming knowledge.
+- **Speed**: From prompt submission to a fully rendered interface in **under 5 minutes**.
+- **Low operational cost**: By serving static assets via S3 + CloudFront and keeping EC2 usage minimal for API work, the MVP infrastructure cost is estimated at only **~$30–$50/month**.
+
+---
 
 ### 3. Solution Architecture
-The platform utilizes a structured AWS architecture that ensures secure traffic routing, high-performance static delivery, and private network isolation for compute and database servers.
 
 #### AWS Services Used
-- **Amazon Route 53**: Manages custom domains and handles DNS routing to the CloudFront CDN distribution.
-- **Amazon CloudFront**: Caches and serves the React SPA globally with SSL/TLS certificates generated via AWS Certificate Manager (ACM). It targets an 80-90% cache hit rate, reducing backend origin load.
-- **Amazon S3**: Hosts static frontend assets (Frontend Bucket) and secures user-uploaded files, such as PDFs and images (Media Bucket), accessible only via time-limited Presigned URLs.
-- **Amazon Cognito**: Secures platform user accounts, authentication sessions, and handles role assignment.
-- **Application Load Balancer (ALB)**: Routes incoming `/api/*` traffic to healthy EC2 backend compute targets in private subnets, managing SSL decryption.
-- **Amazon EC2 Auto Scaling**: Scales Graviton instances (`t4g.small` to `t4g.large`) running NestJS modules in isolated private subnets.
-- **Amazon RDS PostgreSQL**: Stores relational tables for users, RBAC permissions, and site configurations, alongside JSONB tables for flexible user CMS collections.
-- **Amazon ElastiCache Redis**: Speeds up performance via session caching, prompt-hash AI caches, and manages heavy BullMQ asynchronous task queues.
-- **NAT Gateway**: Provides secure outbound internet access for private EC2 instances to query external LLM APIs (Gemini/Groq).
+
+| AWS Service | Role in the System |
+|---|---|
+
+| **Amazon CloudFront** | Global caching and delivery of the React SPA, SSL/TLS via ACM |
+| **Amazon S3** | Hosts all static React application assets (JS, CSS, HTML) |
+| **Amazon Cognito** | User account authentication and JWT token issuance |
+| **Application Load Balancer (ALB)** | Receives API requests, performs SSL termination, routes to EC2 |
+| **Amazon EC2** | Runs the NestJS API server for AI orchestration and data persistence |
+| **Amazon RDS PostgreSQL** | Stores JSON layout data and website metadata per user |
+| **Amazon ElastiCache Redis** | Runs the BullMQ job queue for AI Workers and caches duplicate prompt results |
+| **NAT Gateway** | Allows private-subnet EC2 instances to safely reach the Gemini API |
+| **AWS Certificate Manager** | Automatic SSL/TLS certificate provisioning and renewal |
 
 #### Component Design
-Genzite is structured as a series of specialized backend services:
-- **Identity Service**: Handles signup, login, JWT issuance, and workspace access control.
-- **Site Service**: Manages site pages, canvas UI settings, and layout widgets.
-- **Data Service**: The dynamic CMS engine that reads/writes custom collections and records using PostgreSQL JSONB.
-- **Media Service**: Issues S3 Presigned URLs for direct client uploads, keeping backend servers free of heavy file traffic.
-- **Notification Service**: Consumes Kafka events to trigger automated transactional emails and push notifications.
-- **AI Service**: Connects to Gemini/Groq APIs, manages prompt caching, and handles async pipelines for CV matching and mock interview evaluations via BullMQ workers.
-- **Commerce Service**: Manages shopping carts, orders, and coordinates with PayOS for merchant payment processing.
+
+The backend consists of **4 core services**, communicating via **Apache Kafka** (event bus) and offloading heavy tasks to **BullMQ** workers:
+
+- **Identity Service**: Integrates with Amazon Cognito for user registration, login, and JWT issuance. Manages per-user workspaces.
+- **Site Service**: Reads and writes website configuration (JSON layout: page list + widget array) to/from PostgreSQL. Publishes a `SiteCreated` event to Kafka after each successful save.
+- **AI Service**: Receives prompt → pushes a **BullMQ Job** → AI Worker calls **Google Gemini API** to generate the JSON layout → persists result → emits SSE `completed` event to Frontend. Caches prompt hashes in Redis to avoid redundant LLM calls.
+- **Notification Service**: Consumes `SiteCreated` events from Kafka to automatically send a welcome email to the user—without impacting the main site creation flow.
 
 ---
 
 ### 4. Technical Implementation
-#### Implementation Phases
-The deployment and setup of Genzite's infrastructure follow 4 key phases:
-1. **Phase 1: Architecture Design & Infrastructure Mockup (Month 0)**
-   - Draft microservice boundaries, establish database ERD schemas, and model public vs. private subnets in AWS.
-2. **Phase 2: Feasibility & Cost Calculation (Month 1)**
-   - Analyze resources on the AWS Pricing Calculator to balance costs between MVP development and high-availability production architectures.
-3. **Phase 3: Security & Network Isolation Setup (Month 2)**
-   - Deploy VPC subnets, configure strict Security Group rules (e.g., only allowing DB traffic from EC2 subnets, and only allowing EC2 traffic from the ALB SG), and set up CloudFront OAI policies for S3.
-4. **Phase 4: Service Deployment, Integration & Testing (Months 2–3)**
-   - Deploy NestJS services using Docker Compose / AWS ECS, establish Kafka communication topics, connect the React SPA hosted on S3/CloudFront, and run end-to-end load tests for the AI generation pipeline.
 
 #### Technical Requirements
-- **Frontend**: React 18, Vite, TypeScript, Tailwind CSS v4. Must support dynamic canvas rendering (15+ widgets) and direct S3 uploads.
-- **Backend**: NestJS, Prisma ORM, Kafka (event bus for microservice communication), BullMQ + Redis (heavy AI worker queues).
-- **Database**: PostgreSQL with JSONB support, Redis for key-value caching.
-- **AI Engine**: Google Gemini API, Groq Llama3 SDK, and Model Context Protocol (MCP) integrations.
+
+| Component | Technology |
+|---|---|
+| **Frontend** | React 18, Vite, TypeScript, Tailwind CSS v4 |
+| **Canvas Editor** | Custom drag-and-drop widget system (15+ widget types) |
+| **Backend API** | NestJS, Prisma ORM, PostgreSQL |
+| **Message Queue** | BullMQ + Amazon ElastiCache Redis (async AI job processing) |
+| **Event Bus** | Apache Kafka (inter-service communication) |
+| **Authentication** | Amazon Cognito (JWT) |
+| **AI Engine** | Google Gemini 2.0 Flash API |
+| **Infrastructure** | AWS EC2, S3, RDS, ElastiCache, CloudFront, ALB |
+
+#### Core AI Web Generation Flow
+
+```
+User submits prompt
+        │
+        ▼
+Frontend sends POST /api/v1/ai/generate
+        │
+        ▼
+AI Service pushes Job into BullMQ (ElastiCache Redis)
+        │
+        ▼
+API returns HTTP 202 Accepted + jobId (non-blocking)
+        │
+        ▼
+Frontend opens SSE stream (/api/v1/ai/stream/:jobId)
+        │
+        ▼  [Background: AI Worker pops job from BullMQ]
+ AI Worker calls Google Gemini API → generates JSON Layout
+        │
+        ▼
+Site Service persists JSON to RDS PostgreSQL
+        │  → publishes SiteCreated event to Kafka
+        │     → Notification Service sends welcome email
+        ▼
+SSE stream pushes '100% Done' + layout to Frontend
+        │
+        ▼
+Frontend renders canvas UI
+        │
+        ▼
+User edits widgets directly on the canvas
+```
+
+#### Sample JSON Layout Structure
+
+```json
+{
+  "siteName": "Coffee Shop Website",
+  "subdomain": "coffee-shop",
+  "pages": [
+    {
+      "slug": "/",
+      "title": "Home",
+      "widgets": [
+        { "type": "HeroBanner", "props": { "title": "Welcome to Our Coffee Shop", "bgColor": "#3E2723" } },
+        { "type": "ProductGrid", "props": { "columns": 3, "items": [] } },
+        { "type": "ContactForm", "props": { "email": "hello@coffee.com" } }
+      ]
+    }
+  ]
+}
+```
+
+#### Implementation Phases
+
+1. **Phase 1 – Infrastructure & Authentication Setup (Weeks 1–2)**
+   - Configure VPC, Security Groups, and public/private subnets
+   - Create S3 bucket and CloudFront distribution with OAI
+   - Set up Amazon Cognito User Pool and App Client
+   - Deploy NestJS API on EC2, connect to RDS PostgreSQL
+
+2. **Phase 2 – AI Integration & Canvas Editor (Weeks 3–4)**
+   - Build AI Service: receive prompt, call Gemini API, return JSON
+   - Build Site Service: CRUD JSON layout in PostgreSQL
+   - Develop React Canvas Editor (JSON-driven widget renderer)
+   - Integrate Identity Service (Cognito JWT) across all flows
+
+3. **Phase 3 – Testing & Launch (Weeks 5–6)**
+   - End-to-end testing: login → submit prompt → render canvas → save
+   - Security Group audit (ALB → EC2 only; EC2 → RDS only)
+   - Deploy React production build to S3, configure CloudFront cache behaviors
+
+
+---
 
 ### 5. Timeline & Milestones
-- **Month 0 (Pre-implementation)**: Design C4 models, write OpenAPI schemas, and prepare the local development Docker Compose environment.
-- **Month 1 (Phase 1: Core Infra & Identity)**: Deploy Route 53, S3, RDS, and API Gateway. Complete the Identity Service (JWT authentication and RBAC roles).
-- **Month 2 (Phase 2: Application Canvas & Dynamic CMS)**: Deploy Site Service and Data Service. Implement PostgreSQL JSONB operations, and establish S3 Media Presigned URL generation.
-- **Month 3 (Phase 3: AI Engine, Commerce & Launch)**: Build the AI Service queue using BullMQ. Connect Google Gemini API for site generation. Integrate PayOS in the Commerce Service. Conduct integration testing, audit security groups, and officially go live.
-- **Post-Launch (Months 4+)**: Monitor system usage, analyze CloudFront cache rates, and optimize database indexing for JSONB fields.
 
-### 6. Budget Estimation
-Below is Genzite's detailed cost comparison for MVP mode (Staging/Demo) vs. Production mode on AWS:
-
-| AWS Component | MVP Mode (Staging/Demo) | Production Mode |
+| Milestone | Timeline | Deliverable |
 |---|---|---|
-| **Compute (EC2)** | Single `t4g.small` (~$12/month) | Auto Scaling Group `t4g.medium` or `t4g.large` |
-| **Load Balancer** | ❌ None (Direct EC2 routing) | ✅ ALB with HTTPS and ACM (~$22/month) |
-| **NAT Gateway** | ❌ None (EC2 in public subnet for outbound) | ✅ NAT Gateway in public subnet (~$32/month + data) |
-| **RDS PostgreSQL** | Single-AZ `db.t4g.micro` (~$13/month) | Multi-AZ `db.t4g.small` or `db.t4g.medium` (~$60+/month) |
-| **ElastiCache Redis** | ❌ None (In-memory caching/BullMQ in EC2) | ✅ Dedicated ElastiCache Redis cluster (~$16/month) |
-| **S3 Storage & Media** | ✅ Standard tier (~$2/month) | ✅ Standard + IA + Glacier Lifecycle Rules (~$10/month) |
-| **CloudFront CDN** | ✅ Free tier (Low traffic) | ✅ Full CDN + Custom WAF policies (~$20/month) |
-| **Estimated Total** | **~$35–$60 / month** | **~$150–$350 / month** |
+| **Architecture Design** | Month 0 | System diagram, database ERD, VPC allocation |
+| **Core Infrastructure & Auth** | Weeks 1–2 | EC2 + RDS + Cognito + CloudFront operational |
+| **AI Generation & Canvas** | Weeks 3–4 | Prompt → JSON → canvas render flow complete |
+| **Testing & Launch** | Weeks 5–6 | System live, domain configured, end-to-end tested |
+| **Optimization** | Post-launch | CloudFront cache hit monitoring, RDS index tuning |
 
-- **Estimated Budget Link**: Detailed configurations are available on the [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01).
+---
+
+### 6. Budget Estimation (Monthly ~ 730 hours)
+
+Based on the system architecture diagram, below is the estimated monthly cost (using `ap-southeast-1` Singapore region pricing) for 2 configurations: **Minimal MVP Configuration** (cost-saving, suitable for demo/project) and **Full Configuration** (production-ready as in your architecture diagram).
+
+| AWS Component | Minimal MVP / Project Configuration | Full Configuration (Based on Architecture Diagram) |
+|---|---|---|
+| **Compute (EC2 & EBS)** | Single `t4g.small` in Public Subnet (~$12–$15/month) | Single `t4g.small` in Private Subnet (~$12–$15/month) |
+| **Load Balancer (ALB)** | ❌ Direct access to EC2 IP (~$0) | ✅ ALB + ACM Certificate (~$20–$25/month) |
+| **NAT Gateway** | ❌ Not used (~$0) | ✅ Required for Private Subnet EC2 internet access (~$42–$48/month) |
+| **Database (RDS)** | Single-AZ PostgreSQL `db.t4g.micro` (~$18–$20/month) | Single-AZ PostgreSQL `db.t4g.micro` (~$18–$20/month) |
+| **Cache (Redis)** | ❌ Redis installed directly on EC2 (~$0) | ✅ Dedicated ElastiCache Redis (~$15–$18/month) |
+| **Security (WAF)** | ❌ Not used (~$0) | ✅ AWS WAF for Web Traffic filtering (~$6–$10/month) |
+| **Static Storage (S3)** | ✅ S3 Frontend & Media bucket (~$1–$3/month) | ✅ S3 Frontend & Media bucket (~$1–$3/month) |
+| **CloudFront** | ✅ CloudFront Free Tier (~$0–$1/month) | ✅ CloudFront (~$2–$5/month) |
+| **Other Services** | Cognito, IAM, Backup (~$0) | Cognito, AWS Backup, CloudWatch (~$2–$5/month) |
+| **Estimated Total** | **~$31–$40 / month** | **~$104–$128 / month** |
+
+- **Budget Calculator Link**: [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=58e0506ec76a24dacd2cc6990c65981eba461c97)
 
 ---
 
 ### 7. Risk Assessment
+
 #### Risk Matrix
+
 | Risk | Probability | Impact | Mitigation Strategy |
 |---|---|---|---|
-| **AI API Key Rate Limits** | High | High | Implement a round-robin multi-API key load balancing pool. Cache identical prompt results using Redis hashing to bypass LLM calls. |
-| **Database Performance Degradation** | Medium | High | Limit JSONB depth. Create expression indexes on heavily-queried JSONB paths (e.g., index `ats_scores` or `site_id` inside dynamic tables). |
-| **Security / Malicious S3 Uploads** | Medium | Medium | Validate file extensions and mime-types in the Media Service prior to issuing Presigned URLs. Configure S3 lifecycle rules to auto-delete temporary files. |
-| **High LLM Call Latency (10–15s)** | High | Medium | Execute all heavy AI operations asynchronously. Use BullMQ workers to process requests and update status via SSE/Kafka events. |
+| **Gemini API returns malformed JSON** | High | High | Build a JSON Schema validator in the AI Service. Auto-retry with a corrective prompt on failure. |
+| **Gemini API Rate Limit exceeded** | Medium | High | Cache identical prompt results. Implement per-user rate limiting in NestJS. |
+| **RDS performance degradation at scale** | Low | Medium | Add indexes on `site_id` and `user_id` columns. Cap maximum JSON layout size per page. |
+| **High AI response latency (5–15s)** | High | Medium | All AI processing runs asynchronously via BullMQ. Frontend shows real-time progress via SSE stream instead of blocking on an HTTP response. |
+| **SSE connection dropped mid-generation** | Low | Medium | Client auto-reconnects SSE. Job result is cached in Redis so the client can retrieve it upon reconnect. |
 
 #### Contingency Plans
-- If Google Gemini experiences outages, the system automatically falls back to Groq Llama3 or DeepSeek APIs to prevent platform downtime.
-- If AWS services fail, the system is backed up using AWS CloudFormation templates, allowing developers to spin up a duplicate staging environment within 15 minutes.
+- If Google Gemini is unavailable, the BullMQ worker automatically retries the job (up to 3 times with exponential backoff) before surfacing an error to the user.
+- If ElastiCache Redis is unavailable, the system can temporarily fall back to synchronous processing to maintain availability.
+- All AWS infrastructure configurations (VPC, Security Groups, S3 policies) are documented as scripts for rapid environment rebuild if needed.
+
+---
 
 ### 8. Expected Outcomes
-- **Zero-Code Full-Stack Application Generation**: Users can generate a multi-page website with a functional dynamic CMS within 20 seconds.
-- **Cost-Optimized Backend Operations**: The direct S3 upload mechanism reduces EC2 bandwidth consumption by up to 90%.
-- **Secure, High-Speed Data Transactions**: Secure separation of compute/database subnets and encrypted customer transactions using PayOS API.
-- **Microservices Monorepo Scalability**: Codebases are structured inside a clean pnpm workspace monorepo, facilitating smooth future migration from a modular monolith to independent containerized services.
+
+- **Automatic UI Generation**: Users submit a plain-text site description and receive a fully rendered canvas interface within 5 minutes.
+- **Visual Editing**: The canvas editor enables drag-and-drop editing of every widget—no code required.
+- **Standards-Compliant AWS Deployment**: The full system runs on a secure AWS architecture (private subnets, Cognito auth, HTTPS everywhere), with high-performance static delivery via CloudFront CDN and managed reliability via RDS.
+- **Cost-Optimized Operations**: The MVP configuration operates reliably under $50/month, making it ideal for the demo and initial evaluation phase.

@@ -1,57 +1,39 @@
+
 ---
-title: "Week 11 Worklog"
-date: 2024-01-01
-weight: 2
+title: "Worklog Week 11"
+date: 2026-06-29
+weight: 11
 chapter: false
 pre: " <b> 1.11. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
 
-### Week 11 Objectives:
+### Objectives of Week 11:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Collaborate with team members to develop the frontend of the project.
+* Integrate the frontend with the completed backend APIs.
+* Deploy the application to AWS.
+* Test and optimize the system after deployment.
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Tasks for This Week:
 
+| Day | Tasks | Start Date | Completion Date | Reference |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
+| Mon | - Hold a team meeting to assign frontend development tasks.<br>- Finalize the UI design, project structure, and development workflow.<br>- Set up the frontend development environment and install required dependencies. | 29/06/2026 | 29/06/2026 ||
+| Tue | - Collaborate with team members to develop the main user interfaces, including Home, Login, Dashboard, and other core pages.<br>- Create reusable UI components and implement responsive layouts. | 30/06/2026 | 30/06/2026 |  |
+| Wed | - Integrate the frontend with the backend REST APIs.<br>- Verify API requests and responses.<br>- Fix UI issues and ensure data is displayed correctly across all pages. | 01/07/2026 | 01/07/2026 |  |
+| Thu | - Deploy the frontend and backend to AWS.<br>- Configure Amazon EC2, Security Groups, and environment variables.<br>- Verify connectivity between the frontend, backend, and database. | 02/07/2026 | 02/07/2026 |  |
+| Fri | - Perform end-to-end system testing after deployment.<br>- Fix frontend, backend, and integration issues.<br>- Optimize application performance and user experience. | 03/07/2026 | 03/07/2026 |  |
+| Sat | - Complete the remaining frontend features.<br>- Update the project documentation, worklog, and deployment records.<br>- Prepare the project for the final presentation and evaluation. | 04/07/2026 | 04/07/2026 |  |
 
-### Week 11 Achievements:
+### Achievements of Week 11:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Successfully completed the core frontend interfaces in collaboration with team members.
 
-* Successfully created and configured an AWS Free Tier account.
+* Integrated the frontend with the backend APIs and verified the application's functionality.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Successfully deployed the application to AWS and confirmed stable system operation.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Resolved issues identified during integration and deployment while improving overall performance.
 
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Updated the project documentation and completed the worklog in preparation for the final project presentation.

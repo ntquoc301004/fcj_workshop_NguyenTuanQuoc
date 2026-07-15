@@ -1,57 +1,41 @@
+
 ---
-title: "Week 4 Worklog"
-date: 2024-01-01
-weight: 1
+title: "Worklog Week 4"
+date: 2026-05-11
+weight: 4
 chapter: false
 pre: " <b> 1.4. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
 
-### Week 4 Objectives:
+### Objectives of Week 4:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Learn the application deployment process on AWS.
+* Practice installing and configuring a web server environment on Amazon EC2.
+* Become familiar with Amazon CloudWatch for system monitoring.
+* Improve skills in deploying and managing applications on AWS.
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Tasks for This Week:
 
+| Day | Tasks | Start Date | Completion Date | Reference |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
+| Mon | - Review Amazon EC2, Amazon VPC, and Security Group concepts.<br>- Learn the application deployment workflow on AWS. | 11/05/2026 | 11/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Tue | - Set up a web server environment on Amazon EC2.<br>&emsp;+ Install Nginx/Apache.<br>&emsp;+ Verify web server operation.<br>&emsp;+ Configure Firewall and Security Groups. | 12/05/2026 | 12/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Wed | - **Hands-on:**<br>&emsp;+ Deploy a simple web application on Amazon EC2.<br>&emsp;+ Configure HTTP/HTTPS access.<br>&emsp;+ Verify application accessibility through a web browser. | 13/05/2026 | 13/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Thu | - Learn Amazon CloudWatch.<br>&emsp;+ CPU Utilization.<br>&emsp;+ Network Monitoring.<br>&emsp;+ EC2 Metrics.<br>- Monitor system performance and resource usage. | 14/05/2026 | 14/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Fri | - **Hands-on:**<br>&emsp;+ Troubleshoot deployment issues.<br>&emsp;+ Optimize EC2 configuration.<br>&emsp;+ Evaluate system performance after deployment. | 15/05/2026 | 15/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| Sat | - Review all topics covered during the week.<br>- Organize practice materials.<br>- Update the weekly worklog and prepare for the next week's learning activities. | 16/05/2026 | 16/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
 
-### Week 4 Achievements:
+### Achievements of Week 4:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Understood the application deployment process on AWS.
 
-* Successfully created and configured an AWS Free Tier account.
+* Successfully installed and configured a web server environment on Amazon EC2.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Successfully deployed a web application and verified Internet accessibility.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Learned how to use Amazon CloudWatch to monitor system performance and resource utilization.
 
-* Used AWS CLI to perform basic operations such as:
+* Resolved common deployment issues and optimized EC2 server configurations.
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Improved practical skills in deploying, monitoring, and managing applications on the AWS platform.
