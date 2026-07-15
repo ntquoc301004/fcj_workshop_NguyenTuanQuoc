@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.2.1. </b> "
 ---
 
-# 1. Configure VPC
 
 In this section, we will create and configure the Virtual Private Cloud (VPC) for our infrastructure. The VPC serves as the network foundation for securely deploying services like EC2.
 

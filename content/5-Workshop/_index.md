@@ -6,7 +6,6 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-# Genzite: AI No-Code Platform Workshop
 
 #### Overview
 

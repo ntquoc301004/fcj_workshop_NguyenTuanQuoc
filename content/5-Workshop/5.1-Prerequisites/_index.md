@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.1. </b> "
 ---
 
-# Prerequisites
 
 To ensure a smooth workshop experience, you need to prepare a few basic requirements regarding your AWS account and environment.
 

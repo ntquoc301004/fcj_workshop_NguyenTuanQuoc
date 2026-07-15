@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.6. </b> "
 ---
 
-# Lab 5: Kiến trúc Hướng Sự kiện (Event-Driven)
 
 Chào mừng bạn đến với **Lab 5**. Trong phần cuối cùng của chuỗi Workshop, chúng ta sẽ ứng dụng mô hình Event-Driven Architecture (EDA) vào hệ thống Genzite.
 

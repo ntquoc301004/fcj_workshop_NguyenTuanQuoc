@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.2. </b> "
 ---
 
-# Lab 1: Infrastructure & Frontend
 
 Welcome to **Lab 1** of our workshop. In this module, we will lay the foundation for our system architecture on AWS and deploy the frontend application.
 

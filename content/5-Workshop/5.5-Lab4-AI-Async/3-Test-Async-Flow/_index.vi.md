@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.5.3. </b> "
 ---
 
-# 3. Kiểm thử luồng AI Bất đồng bộ (Async Flow)
 
 Để hiểu rõ tại sao chúng ta lại dùng BullMQ và Redis, ở phần này ta sẽ kiểm thử thực tế.
 

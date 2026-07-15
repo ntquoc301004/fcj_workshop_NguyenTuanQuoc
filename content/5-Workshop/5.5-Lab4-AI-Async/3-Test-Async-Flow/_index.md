@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.5.3. </b> "
 ---
 
-# 3. Test Asynchronous AI Flow
 
 To fully understand why we utilized BullMQ and Redis, we will test the system practically in this section.
 

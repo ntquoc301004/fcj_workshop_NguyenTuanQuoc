@@ -6,7 +6,6 @@ chapter: false
 ---
 
     
-# Internship Report
 
 
 ### Student Information:

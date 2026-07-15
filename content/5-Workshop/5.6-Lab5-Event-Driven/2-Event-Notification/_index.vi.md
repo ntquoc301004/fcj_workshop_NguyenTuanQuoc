@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.6.2. </b> "
 ---
 
-# 2. Luồng Publish / Subscribe (Xử lý Sự kiện)
 
 Trong Genzite, khi AI Worker sinh xong giao diện và lưu thành công vào Database, Service chịu trách nhiệm về Website (Site Service) sẽ "phát" (Publish) một tin nhắn lên Kafka. Bất kỳ service nào quan tâm (Subscribe) đều sẽ nhận được tin nhắn đó. 
 

@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.4.2. </b> "
 ---
 
-# 2. Deploy Backend on EC2
 
 For the Genzite application to process complex requests (generating JSON from prompts, interacting with the Database), we need a Virtual Machine. In AWS, this is the **Amazon Elastic Compute Cloud (EC2)** service.
 

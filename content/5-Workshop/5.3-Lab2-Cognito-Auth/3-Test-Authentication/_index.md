@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.3.3. </b> "
 ---
 
-# 3. Test Authentication
 
 In this section, we will run the Frontend application in the local environment (or access it via the S3/CloudFront domain) to verify if the connection to Amazon Cognito works properly.
 

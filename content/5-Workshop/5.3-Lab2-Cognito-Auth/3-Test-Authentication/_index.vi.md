@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.3.3. </b> "
 ---
 
-# 3. Kiểm thử Xác thực (Test Authentication)
 
 Trong phần này, chúng ta sẽ chạy ứng dụng Frontend trên môi trường local (hoặc truy cập qua domain S3/CloudFront) để kiểm tra xem quá trình kết nối với Amazon Cognito đã hoạt động đúng chưa.
 

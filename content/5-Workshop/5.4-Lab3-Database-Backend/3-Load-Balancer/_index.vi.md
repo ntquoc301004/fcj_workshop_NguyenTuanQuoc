@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.4.3. </b> "
 ---
 
-# 3. Cấu hình Load Balancer (ALB)
 
 Vì máy chủ EC2 Backend nằm trong **Private Subnet** (không có Public IP), các ứng dụng Frontend từ internet không thể gọi trực tiếp vào API của chúng ta. 
 

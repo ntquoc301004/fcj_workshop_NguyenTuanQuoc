@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.3. </b> "
 ---
 
-# Lab 2: Authentication with Cognito
 
 Welcome to **Lab 2**. In this module, we will build an identity management and access control system for our application users using **Amazon Cognito**.
 

@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.2. </b> "
 ---
 
-# Lab 1: Hạ tầng & Frontend
 
 Chào mừng bạn đến với **Lab 1** của chuỗi bài thực hành. Trong phần này, chúng ta sẽ bắt tay vào xây dựng nền móng kiến trúc hệ thống trên AWS và triển khai ứng dụng Frontend.
 

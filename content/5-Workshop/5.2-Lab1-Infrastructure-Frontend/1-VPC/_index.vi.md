@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.2.1. </b> "
 ---
 
-# 1. Cấu hình VPC
 
 Trong phần này, chúng ta sẽ tạo và cấu hình Virtual Private Cloud (VPC) cho hạ tầng của mình. Việc tạo VPC đóng vai trò nền tảng mạng (network foundation) để triển khai các dịch vụ như EC2 một cách an toàn.
 

@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.1. </b> "
 ---
 
-# Chuẩn bị trước khi thực hành
 
 Để việc thực hành bài Workshop diễn ra suôn sẻ, bạn cần chuẩn bị một số yêu cầu cơ bản về tài khoản và môi trường AWS.
 

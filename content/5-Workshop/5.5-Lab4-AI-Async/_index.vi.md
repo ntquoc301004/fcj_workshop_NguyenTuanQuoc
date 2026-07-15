@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.5. </b> "
 ---
 
-# Lab 4: Xử lý AI Bất đồng bộ
 
 Chào mừng bạn đến với **Lab 4**. Trong phần này, chúng ta sẽ xây dựng luồng xử lý AI bất đồng bộ (Asynchronous Processing) cho ứng dụng Genzite.
 

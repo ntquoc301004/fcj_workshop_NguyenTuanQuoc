@@ -7,7 +7,6 @@ pre: " <b> 4.1. </b> "
 ---
 
 
-# Reflection Report – “FCAJ Community Day 2026”
 
 ## Purpose of the Event
 

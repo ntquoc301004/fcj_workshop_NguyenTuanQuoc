@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.5.2. </b> "
 ---
 
-# 2. Integrate Google Gemini API
 
 The heart of Genzite is its ability to generate layouts from text (text-to-layout). We will use the Google Gemini 2.0 Flash API (or equivalent) because of its extremely fast response times and ability to accurately output JSON formats.
 

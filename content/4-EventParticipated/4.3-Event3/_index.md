@@ -7,7 +7,6 @@ pre: " <b> 4.3. </b> "
 ---
 
 
-# Reflection Report – “AWS Study Tour: Cloud Architectures and Career Trends”
 
 ## Purpose of the Event
 

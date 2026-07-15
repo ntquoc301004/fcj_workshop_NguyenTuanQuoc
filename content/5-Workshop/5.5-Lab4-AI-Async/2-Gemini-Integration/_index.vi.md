@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.5.2. </b> "
 ---
 
-# 2. Tích hợp Google Gemini API
 
 Trái tim của Genzite là khả năng sinh giao diện từ văn bản (text-to-layout). Chúng ta sẽ sử dụng API của Google Gemini 2.0 Flash (hoặc phiên bản tương đương) vì tốc độ phản hồi cực nhanh và khả năng trả về định dạng JSON chính xác.
 

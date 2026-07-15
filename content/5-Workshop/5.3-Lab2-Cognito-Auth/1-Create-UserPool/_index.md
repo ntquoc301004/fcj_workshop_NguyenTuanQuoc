@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.3.1. </b> "
 ---
 
-# 1. Create Amazon Cognito User Pool
 
 In this section, we will create a User Pool to securely store and manage user accounts.
 

@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.4.2. </b> "
 ---
 
-# 2. Triển khai Backend EC2
 
 Để ứng dụng Genzite xử lý các request phức tạp (sinh JSON từ prompt, giao tiếp với Database), chúng ta cần một máy chủ ảo (Virtual Machine). Trong AWS, đó là dịch vụ **Amazon Elastic Compute Cloud (EC2)**.
 

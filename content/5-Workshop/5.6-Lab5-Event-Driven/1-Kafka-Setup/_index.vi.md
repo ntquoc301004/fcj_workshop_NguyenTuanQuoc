@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.6.1. </b> "
 ---
 
-# 1. Khởi tạo Apache Kafka
 
 Để xây dựng kiến trúc Hướng sự kiện (Event-Driven), Genzite cần một Event Bus đóng vai trò làm trung tâm vận chuyển thông điệp giữa các Microservices.
 

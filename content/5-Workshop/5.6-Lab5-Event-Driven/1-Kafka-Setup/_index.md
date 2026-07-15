@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.6.1. </b> "
 ---
 
-# 1. Initialize Apache Kafka
 
 To build an Event-Driven Architecture, Genzite needs an Event Bus to serve as the central message transport hub between Microservices.
 

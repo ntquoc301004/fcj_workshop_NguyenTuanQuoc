@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.2.3. </b> "
 ---
 
-# 3. Deploy Frontend (S3 & CloudFront)
 
 In this section, we will deploy the frontend application (built with React/Vite) to AWS in an optimized manner: using Amazon S3 to store static files and Amazon CloudFront as a CDN (Content Delivery Network) to accelerate global load times and secure the data.
 

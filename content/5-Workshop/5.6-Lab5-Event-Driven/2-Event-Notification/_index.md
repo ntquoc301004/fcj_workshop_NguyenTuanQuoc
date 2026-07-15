@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.6.2. </b> "
 ---
 
-# 2. Publish / Subscribe Flow (Event Processing)
 
 In Genzite, when the AI Worker finishes generating the layout and successfully saves it to the Database, the Service responsible for Websites (Site Service) will "Publish" a message to Kafka. Any interested services (Subscribers) will receive that message.
 

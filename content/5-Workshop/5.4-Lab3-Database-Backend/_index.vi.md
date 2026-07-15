@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.4. </b> "
 ---
 
-# Lab 3: Cơ sở dữ liệu & Backend
 
 Chào mừng bạn đến với **Lab 3**. Trong module này, chúng ta sẽ xây dựng tầng lưu trữ dữ liệu (Database) và máy chủ tính toán (Backend) để xử lý logic của ứng dụng.
 

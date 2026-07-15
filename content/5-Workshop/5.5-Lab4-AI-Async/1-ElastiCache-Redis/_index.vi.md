@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.5.1. </b> "
 ---
 
-# 1. Khởi tạo ElastiCache Redis
 
 Để chạy BullMQ (thư viện xử lý hàng đợi - Message Queue của Node.js), chúng ta cần một server Redis. Trong môi trường AWS, dịch vụ tối ưu nhất là **Amazon ElastiCache for Redis**.
 

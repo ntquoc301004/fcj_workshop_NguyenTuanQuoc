@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.4.1. </b> "
 ---
 
-# 1. Initialize RDS PostgreSQL
 
 The Genzite system requires a place to store structured data (User information, created Web Projects, JSON layout structures). In the AWS environment, the most optimal service is **Amazon Relational Database Service (RDS)**.
 

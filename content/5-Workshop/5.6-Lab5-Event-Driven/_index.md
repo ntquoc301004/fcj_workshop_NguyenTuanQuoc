@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.6. </b> "
 ---
 
-# Lab 5: Event-Driven Architecture
 
 Welcome to **Lab 5**. In the final part of the Workshop, we will apply the Event-Driven Architecture (EDA) pattern to the Genzite system.
 

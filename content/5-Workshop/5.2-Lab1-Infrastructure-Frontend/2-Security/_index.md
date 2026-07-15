@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.2.2. </b> "
 ---
 
-# 2. Configure Security (Security Groups & IAM Roles)
 
 In this section, we will set up security layers to ensure the system is safe, only allowing valid traffic to pass through and granting least-privilege permissions to our services.
 
@@ -34,7 +33,7 @@ The Application Load Balancer (ALB) will be the direct gateway facing the intern
 5. **VPC**: Select the `genzite-vpc` you created earlier.
 6. **Inbound rules**:
    - Add Rule 1: Type `HTTP`, Source `Anywhere-IPv4` (`0.0.0.0/0`).
-   - Add Rule 2: Type `HTTPS`, Source `Anywhere-IPv4` (`0.0.0.0/0`) *(Only required if using an SSL certificate)*.
+   - Add Rule 2: Type `HTTPS`, Source `Anywhere-IPv4` (`0.0.0.0/0`).
 7. **Outbound rules**: Leave the default (Allow All Traffic).
 8. Click **Create security group**.
 

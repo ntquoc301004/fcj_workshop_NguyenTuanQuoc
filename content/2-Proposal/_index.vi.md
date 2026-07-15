@@ -6,7 +6,6 @@ chapter: false
 pre: " <b> 2. </b> "
 ---
 
-# Genzite: Nền tảng No-Code tạo giao diện web bằng AI
 ## Giải pháp hạ tầng AWS Cloud-Native để sinh & triển khai Frontend tự động từ ngôn ngữ tự nhiên
 
 ### 1. Tóm tắt điều hành

@@ -6,7 +6,6 @@ chapter: false
 pre: " <b> 2. </b> "
 ---
 
-# Genzite: AI-Powered No-Code Web Interface Builder
 ## A Cloud-Native AWS Infrastructure Solution for AI-Driven Frontend Generation
 
 ### 1. Executive Summary

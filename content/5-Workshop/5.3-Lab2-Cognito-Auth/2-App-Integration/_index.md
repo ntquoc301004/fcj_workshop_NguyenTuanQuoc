@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.3.2. </b> "
 ---
 
-# 2. App Integration
 
 Once the User Pool is ready, the next step is to retrieve the connection parameters to put into the Frontend (React) source code. AWS provides the `aws-amplify` library, making authentication calls (sign-up/sign-in) incredibly simple.
 

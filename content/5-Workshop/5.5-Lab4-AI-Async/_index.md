@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.5. </b> "
 ---
 
-# Lab 4: Asynchronous AI Processing
 
 Welcome to **Lab 4**. In this module, we will build the asynchronous AI processing flow for the Genzite application.
 

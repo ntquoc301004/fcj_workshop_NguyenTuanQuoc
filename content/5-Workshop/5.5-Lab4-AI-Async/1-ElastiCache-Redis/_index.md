@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.5.1. </b> "
 ---
 
-# 1. Initialize ElastiCache Redis
 
 To run BullMQ (a robust Message Queue library for Node.js), we need a Redis server. In the AWS ecosystem, the most optimal service is **Amazon ElastiCache for Redis**.
 

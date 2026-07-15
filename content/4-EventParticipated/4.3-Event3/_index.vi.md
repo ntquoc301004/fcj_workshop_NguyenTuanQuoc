@@ -7,7 +7,6 @@ pre: " <b> 4.3. </b> "
 ---
 
 
-# Bài thu hoạch “AWS Study Tour: Cloud Architectures and Career Trends”
 
 ### Mục Đích Của Sự Kiện
 

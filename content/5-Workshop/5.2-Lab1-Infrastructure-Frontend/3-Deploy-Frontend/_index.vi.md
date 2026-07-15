@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.2.3. </b> "
 ---
 
-# 3. Triển khai Frontend (S3 & CloudFront)
 
 Trong phần này, chúng ta sẽ triển khai ứng dụng frontend (được build bằng React/Vite) lên môi trường AWS một cách tối ưu nhất: sử dụng Amazon S3 để lưu trữ file tĩnh và Amazon CloudFront làm CDN (Mạng phân phối nội dung) nhằm tăng tốc độ tải trang toàn cầu và bảo mật dữ liệu.
 

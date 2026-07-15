@@ -6,7 +6,6 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-# Genzite: Nền tảng No-Code tạo web bằng AI
 
 #### Tổng quan
 

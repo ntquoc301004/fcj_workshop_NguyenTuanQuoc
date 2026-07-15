@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.4. </b> "
 ---
 
-# Lab 3: Database & Backend
 
 Welcome to **Lab 3**. In this module, we will build the data storage layer (Database) and the compute server (Backend) to handle our application logic.
 

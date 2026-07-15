@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.3.1. </b> "
 ---
 
-# 1. Tạo Amazon Cognito User Pool
 
 Trong phần này, chúng ta sẽ tạo một User Pool để lưu trữ và quản lý tài khoản người dùng an toàn.
 

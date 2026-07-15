@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.4.3. </b> "
 ---
 
-# 3. Configure Load Balancer (ALB)
 
 Because the EC2 Backend server resides in a **Private Subnet** (with no Public IP), frontend applications from the internet cannot call our APIs directly.
 

@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.3.2. </b> "
 ---
 
-# 2. Tích hợp Ứng dụng (App Integration)
 
 Sau khi có User Pool, bước tiếp theo là lấy các tham số kết nối để đưa vào mã nguồn Frontend (React). AWS cung cấp thư viện `aws-amplify` giúp việc gọi các hàm đăng nhập/đăng ký vô cùng đơn giản.
 

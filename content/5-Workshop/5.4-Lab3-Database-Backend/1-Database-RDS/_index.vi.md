@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.4.1. </b> "
 ---
 
-# 1. Khởi tạo RDS PostgreSQL
 
 Hệ thống Genzite cần một nơi lưu trữ dữ liệu có cấu trúc (thông tin User, các Project Web đã tạo, cấu trúc JSON layout). Trong môi trường AWS, dịch vụ tối ưu nhất là **Amazon Relational Database Service (RDS)**. 
 

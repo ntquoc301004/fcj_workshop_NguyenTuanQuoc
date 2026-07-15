@@ -5,7 +5,6 @@ chapter: false
 pre: " <b> 5.3. </b> "
 ---
 
-# Lab 2: Xác thực với Cognito (Authentication)
 
 Chào mừng bạn đến với **Lab 2**. Trong phần này, chúng ta sẽ xây dựng hệ thống quản lý danh tính và kiểm soát quyền truy cập cho người dùng ứng dụng bằng **Amazon Cognito**.
 
