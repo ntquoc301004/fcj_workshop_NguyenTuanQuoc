@@ -6,6 +6,7 @@ chapter: false
 pre: " <b> 2. </b> "
 ---
 
+# Genzite: Nền tảng No-Code tạo giao diện web bằng AI
 ## Giải pháp hạ tầng AWS Cloud-Native để sinh & triển khai Frontend tự động từ ngôn ngữ tự nhiên
 
 ### 1. Tóm tắt điều hành
@@ -49,7 +50,7 @@ Toàn bộ tài nguyên tĩnh của ứng dụng React được lưu trên **S3*
 
 | Dịch vụ AWS | Vai trò trong hệ thống |
 |---|---|
-
+| **Amazon Route 53** | Quản lý tên miền và phân giải DNS tới CloudFront |
 | **Amazon CloudFront** | Cache và phân phối React SPA toàn cầu, tích hợp SSL/TLS từ ACM |
 | **Amazon S3** | Lưu trữ toàn bộ tài nguyên tĩnh của ứng dụng React (JS, CSS, HTML) |
 | **Amazon Cognito** | Xác thực tài khoản người dùng, cấp phát JWT Token |
@@ -84,7 +85,7 @@ Hệ thống backend bao gồm **4 service cốt lõi**, giao tiếp với nhau 
 | **Event Bus** | Apache Kafka (giao tiếp giữa các service) |
 | **Xác thực** | Amazon Cognito (JWT) |
 | **AI Engine** | Google Gemini 2.0 Flash API |
-| **Hạ tầng** | AWS EC2, S3, RDS, ElastiCache, CloudFront, ALB |
+| **Hạ tầng** | AWS EC2, S3, RDS, ElastiCache, CloudFront, ALB, Route 53 |
 
 #### Luồng sinh web bằng AI (Core Flow)
 
@@ -158,7 +159,7 @@ Người dùng chỉnh sửa widget trực tiếp
    - Kiểm thử end-to-end toàn bộ luồng: đăng nhập → nhập prompt → render canvas → lưu
    - Rà soát Security Group (chỉ ALB truy cập EC2, chỉ EC2 truy cập RDS)
    - Deploy React build lên S3, cấu hình CloudFront cache behavior
-
+   - Cấu hình Route 53 trỏ tên miền vào CloudFront
 
 ---
 
@@ -187,7 +188,7 @@ Dựa trên sơ đồ kiến trúc hệ thống, dưới đây là ước tính 
 | **Bộ nhớ đệm (Redis)** | ❌ Cài Redis thẳng lên EC2 (~$0) | ✅ ElastiCache Redis độc lập (~$15–$18/tháng) |
 | **Bảo mật (WAF)** | ❌ Không dùng (~$0) | ✅ AWS WAF lọc Web Traffic (~$6–$10/tháng) |
 | **Lưu trữ tĩnh (S3)** | ✅ S3 Frontend & Media (~$1–$3/tháng) | ✅ S3 Frontend & Media (~$1–$3/tháng) |
-| **CloudFront** | ✅ CloudFront Free Tier (~$0–$1/tháng) | ✅ CloudFront (~$2–$5/tháng) |
+| **CloudFront & Route53** | ✅ CloudFront Free Tier + DNS (~$0–$1/tháng) | ✅ CloudFront + Route53 Hosted Zone (~$2–$5/tháng) |
 | **Các dịch vụ khác** | Cognito, IAM, Backup (~$0) | Cognito, AWS Backup, CloudWatch (~$2–$5/tháng) |
 | **Tổng cộng ước tính** | **~$31–$40 / tháng** | **~$104–$128 / tháng** |
 

@@ -14,112 +14,103 @@ Dựa theo thiết kế, EC2 sẽ được đặt trong **Private Subnet** để
 
 1. Mở dịch vụ **EC2** trên AWS Console.
 2. Nhấn **Launch instances**.
-3. **Name**: Nhập `genzite-backend-ec2`.
+3. **Name**: Nhập `genzite-backend`.
 4. **Application and OS Images (Amazon Machine Image)**:
-   - Chọn **Amazon Linux 2023 AMI** (Free tier eligible).
-   - *Lưu ý:* Chọn kiến trúc **64-bit (Arm)** để dùng chip Graviton tiết kiệm chi phí.
+   - Chọn **Ubuntu**.
+   - Chọn **Ubuntu Server 24.04 LTS**.
 5. **Instance type**:
-   - Chọn `t4g.small` (Vì yêu cầu chạy Node.js và NestJS, t4g.small sẽ cho hiệu năng ổn định hơn t4g.micro).
+   - Chọn `t3a.large`.
 6. **Key pair (login)**:
-   - Chọn **Proceed without a key pair** (Chúng ta sẽ dùng AWS Systems Manager - Session Manager để truy cập an toàn thay vì dùng SSH Key).
+   - Chọn **Create new key pair** với tên `genzite-key`.
 7. **Network settings**:
    - Nhấn **Edit**.
    - **VPC**: Chọn `genzite-vpc`.
-   - **Subnet**: Chọn một **Private Subnet** (Ví dụ: `genzite-private-subnet-1a`).
-   - **Auto-assign public IP**: **Disable** (Bắt buộc vô hiệu hoá để đảm bảo máy chủ không bị lộ ra Internet).
-   - **Firewall (security groups)**: Chọn **Select existing security group**, sau đó chọn `genzite-ec2-sg` (Đã tạo ở Lab 1).
+   - **Subnet**: Chọn một **Private Subnet**.
+   - **Auto-assign public IP**: **Disable**.
+   - **Firewall (security groups)**: Chọn **Create security group**.
+   - **Security group name**: `genzite-sg`.
+![Config EC2](./images/5.4.2.1.png)
 8. **Configure storage**:
-   - Để mặc định `8 GiB` gp3.
-9. Mở rộng phần **Advanced details**:
-   - Kéo xuống mục **IAM instance profile**: Chọn `genzite-ec2-role` (Role đã tạo ở Lab 1 giúp EC2 gọi AWS services và cho phép dùng Session Manager).
-10. Nhấn **Launch instance**.
+   - Tăng dung lượng từ `8` lên `30` GiB.
+9. Các phần còn lại giữ nguyên. Nhấn **Launch instance**.
+![Config EC2](./images/5.4.2.2.png)
+## Bước 2: Thêm IAM Role cho EC2
 
-## Bước 2: Kết nối vào EC2 thông qua Session Manager
+1. Quay về trang chủ **EC2** chọn **genzite-backend**, chọn **Actions**,chọn **Sercurity** rồi **Modify IAM role**.
+![Config EC2](./images/5.4.2.3.png)
+2. Thay đổi IAM role thành role **genzite-role**.
+3. Nhấn **Update IAM role**.
+![Config EC2](./images/5.4.2.4.png)
+4. Quay lại trang **EC2**, Tiến hành **Reboot** lại EC2 và đợi trong giây lát.
+5. Như vậy là đã thêm quyền xong cho EC2.
 
-Vì EC2 nằm trong Private Subnet và không có Public IP, bạn không thể SSH trực tiếp. Chúng ta sẽ dùng tính năng Session Manager.
 
-1. Chờ trạng thái EC2 chuyển sang **Running** và **Status check** là *2/2 checks passed*.
-2. Đánh dấu chọn vào EC2 instance `genzite-backend-ec2`, nhấn nút **Connect** ở góc trên cùng.
-3. Chuyển sang tab **Session Manager**.
-4. Nhấn **Connect**. Một cửa sổ terminal đen sẽ mở ra ngay trên trình duyệt.
+## Bước 3: Kết nối và Cài đặt Môi trường (Docker, Node.js)
 
-## Bước 3: Cài đặt Môi trường (Node.js & PM2)
-
-Trong terminal của Session Manager, chạy các lệnh sau để chuẩn bị môi trường chạy backend:
+1. Sau khi reboot, chọn lại EC2 và nhấn **Connect**.
+2. Chuyển qua tab **Session Manager** và kéo xuống chọn **Connect**.
+3. Trong terminal, test thử với lệnh `whoami` (nếu trả về `ssm-user` là chính xác).
+4. Tiến hành chạy các lệnh sau để cập nhật hệ thống và cài đặt môi trường:
 
 ```bash
-# Cập nhật hệ thống
-sudo dnf update -y
+sudo apt update
+sudo apt update && sudo apt upgrade -y
 
-# Cài đặt Node.js (phiên bản 18 hoặc 20)
-curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
-sudo dnf install -y nodejs
+# Cài đặt Docker
+sudo apt install -y docker.io
+docker --version
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo systemctl status docker
+```
+*(Nhấn `Ctrl + C` để thoát khỏi màn hình status của Docker)*
 
-# Kiểm tra version
+Tiếp tục cài đặt Docker Compose và Git:
+```bash
+sudo apt install -y docker-compose-v2
+docker compose version
+
+sudo apt install -y git
+git --version
+```
+
+## Bước 4: Tải Source Code và Chạy Ứng Dụng
+
+Chuyển sang quyền root để tải code và chạy dự án:
+```bash
+sudo -i
+git clone https://github.com/KrisCTer/Genzite
+cd Genzite
+
+# Cài đặt Node.js 22.x
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt install -y nodejs
 node -v
 npm -v
 
-# Cài đặt PM2 (Process Manager để giữ app luôn chạy)
-sudo npm install pm2 -g
+# Cài đặt pnpm
+sudo npm install -g pnpm
+pnpm install
+pnpm run build:packages
+
+# Cấu hình biến môi trường
+cd infra
+cp .env.example .env
+
+# Khởi chạy các dịch vụ hạ tầng với Docker Compose
+docker compose up -d db cache zookeeper kafka
+cd ..
+
+# Migrate database
+pnpm run prisma:migrate
+
+# Khởi chạy các microservices của dự án (chạy ngầm với nohup)
+nohup pnpm run dev:gateway > gateway.log 2>&1 &
+nohup pnpm run dev:ai > ai.log 2>&1 &
+nohup pnpm run dev:data > data.log 2>&1 &
+nohup pnpm run dev:identity > identity.log 2>&1 &
+nohup pnpm run dev:media > media.log 2>&1 &
+nohup pnpm run dev:site > site.log 2>&1 &
+nohup pnpm run dev:notification > notification.log 2>&1 &
+nohup pnpm run dev:frontend --host 0.0.0.0 > frontend.log 2>&1 &
 ```
-
-## Bước 4: Tải Source Code và Cấu hình Biến môi trường (.env)
-
-Tiếp theo, clone source code (nếu dùng git) hoặc tạo thư mục backend giả định:
-
-```bash
-# Giả sử clone code từ github (Thay bằng link repo thực tế của bạn nếu có)
-git clone https://github.com/your-repo/genzite-backend.git
-cd genzite-backend
-
-# Hoặc tạo thư mục trống để test nếu bạn không có source code:
-# mkdir genzite-backend && cd genzite-backend && npm init -y && npm install express
-```
-
-Tạo file biến môi trường để kết nối với RDS Database đã tạo ở Bước 1.
-
-```bash
-nano .env
-```
-Nhập các thông tin sau (chỉnh sửa lại cho khớp với RDS và Cognito của bạn):
-```env
-# Database RDS
-DB_HOST=genzite-db.xxxxxxxxx.us-east-1.rds.amazonaws.com
-DB_PORT=5432
-DB_USERNAME=postgres
-DB_PASSWORD=GenziteDBPass123!
-DB_DATABASE=genzite
-
-# AWS Cognito (Lấy từ Lab 2)
-COGNITO_USER_POOL_ID=us-east-1_xxxxxxxxx
-COGNITO_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
-AWS_REGION=us-east-1
-
-# Port chạy app
-PORT=3000
-```
-Nhấn `Ctrl + O` -> `Enter` để lưu file, rồi `Ctrl + X` để thoát.
-
-## Bước 5: Chạy ứng dụng Backend
-
-Cài đặt các thư viện cần thiết và chạy API:
-
-```bash
-# Cài đặt dependencies
-npm install
-
-# Build code (Nếu là dự án NestJS/TypeScript)
-npm run build
-
-# Chạy ứng dụng ngầm với PM2
-pm2 start dist/main.js --name "genzite-api"
-```
-
-Kiểm tra xem app đã chạy đúng trên port 3000 chưa:
-```bash
-curl http://localhost:3000/
-```
-*(Nếu terminal trả về kết quả hoặc thông báo lỗi JSON, ứng dụng của bạn đã chạy thành công).*
-
----
-Hiện tại API đang chạy tốt trong máy chủ EC2. Nhưng làm sao để Frontend từ bên ngoài Internet có thể gọi vào API này? Hãy chuyển sang bước tiếp theo: **Cấu hình Load Balancer**.

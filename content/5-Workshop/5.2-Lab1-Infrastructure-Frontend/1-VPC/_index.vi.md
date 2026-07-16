@@ -10,7 +10,7 @@ Trong phần này, chúng ta sẽ tạo và cấu hình Virtual Private Cloud (V
 
 ## Mục tiêu
 - Tạo một VPC tuỳ chỉnh với dải mạng (CIDR) là `10.0.0.0/16`.
-- Cấu hình 1 Public Subnet và 1 Private Subnet trong 1 Availability Zone.
+- Cấu hình 2 Public Subnet và 2 Private Subnet trải rộng trên 2 Availability Zone.
 - Thiết lập Internet Gateway (IGW) cho phép Public Subnet truy cập internet.
 - Thiết lập NAT Gateway để Private Subnet có thể truy cập ra internet an toàn.
 - Thiết lập S3 Gateway Endpoint để truy cập dịch vụ S3 trực tiếp từ VPC mà không qua internet.
@@ -28,9 +28,9 @@ Trong phần này, chúng ta sẽ tạo và cấu hình Virtual Private Cloud (V
 
 ![Create VPC Step 1](./images/create-vpc-step1.png)
 
-   - **Number of Availability Zones (AZs)**: `1`.
-   - **Number of public subnets**: `1`.
-   - **Number of private subnets**: `1`.
+   - **Number of Availability Zones (AZs)**: `2`.
+   - **Number of public subnets**: `2`.
+   - **Number of private subnets**: `2`.
    - **NAT gateways ($)**: Chọn **Zonal** và **In 1 AZ** (Để tạo NAT Gateway cho Private Subnet).
    - **VPC endpoints**: Chọn **S3 Gateway**.
    - **DNS options**: Đảm bảo đã tích chọn **Enable DNS hostnames** và **Enable DNS resolution**.
@@ -39,7 +39,7 @@ Trong phần này, chúng ta sẽ tạo và cấu hình Virtual Private Cloud (V
 
 6. Kiểm tra lại cấu hình ở khung preview bên phải và nhấn nút **Create VPC**.
 
-### Khởi tạo NAT Gateway (Nếu tạo thủ công)
+### Khởi tạo NAT Gateway
 Trong trường hợp bạn chọn **None** ở phần NAT gateways khi tạo VPC (để tiết kiệm chi phí ban đầu) và muốn tạo lại thủ công ở các Lab sau, hãy làm theo các bước sau:
 
 1. Truy cập dịch vụ **VPC**, chọn **NAT gateways** ở menu bên trái.
@@ -50,6 +50,9 @@ Trong trường hợp bạn chọn **None** ở phần NAT gateways khi tạo VP
    - **Subnet**: Chọn Public Subnet của bạn (ví dụ: `genzite-subnet-public1-us-east-1a`)
    - **Connectivity type**: `Public`
    - **Elastic IP allocation ID**: Nhấn nút **Allocate Elastic IP**
+
+![Create NAT Gateway](./images/create-nat-gw.png)
+
 4. Nhấn **Create NAT gateway** và đợi vài phút để trạng thái chuyển sang **Available**.
 *(Lưu ý: Nếu tạo thủ công, bạn cần vào Route Table của Private Subnet và trỏ route `0.0.0.0/0` tới NAT Gateway vừa tạo).*
 
@@ -57,12 +60,12 @@ Trong trường hợp bạn chọn **None** ở phần NAT gateways khi tạo VP
 
 Quá trình tạo sẽ mất vài phút do AWS cần thời gian khởi tạo tài nguyên. Khi hoàn tất, hãy kiểm tra:
 
-1. **Subnets**: Đi tới mục **Subnets** ở menu trái và đảm bảo bạn có 1 Public Subnet và 1 Private Subnet được gán với VPC `genzite-vpc`.
+1. **Subnets**: Đi tới mục **Subnets** ở menu trái và đảm bảo bạn có 2 Public Subnet và 2 Private Subnet được gán với VPC `genzite-vpc`.
 2. **Internet Gateways**: Đi tới **Internet Gateways**, đảm bảo có 1 IGW đang ở trạng thái **Attached** vào VPC `genzite-vpc`.
 3. **NAT Gateways**: Đi tới **NAT Gateways**, đảm bảo có 1 NAT Gateway đang ở trạng thái **Available**.
 4. **Route Tables**: Đi tới **Route Tables**.
-   - Cần có 1 Route Table dành cho Public Subnet (có route `0.0.0.0/0` trỏ tới Internet Gateway).
-   - Cần có 1 Route Table dành cho Private Subnet (có route `0.0.0.0/0` trỏ tới NAT Gateway, và có một route đặc biệt trỏ tới S3 Gateway Endpoint).
+   - Cần có 1 Route Table dành cho Public Subnet (dùng chung cho cả 2 AZ, có route `0.0.0.0/0` trỏ tới Internet Gateway).
+   - Cần có 2 Route Table dành cho Private Subnet (mỗi AZ 1 Route Table, có route `0.0.0.0/0` trỏ tới NAT Gateway, và có một route đặc biệt trỏ tới S3 Gateway Endpoint).
 
 ## Bước 3: Bật tính năng Auto-assign public IPv4 address
 

@@ -1,91 +1,86 @@
 ---
-title: "3. Deploy Frontend"
-weight: 3
+title: "3. Frontend Deployment"
+weight: 23
 chapter: false
-pre: " <b> 5.2.3. </b> "
+pre: "<b>5.2.3. </b>"
 ---
 
+# 5.2.3 Frontend Deployment
 
-In this section, we will deploy the frontend application (built with React/Vite) to AWS in an optimized manner: using Amazon S3 to store static files and Amazon CloudFront as a CDN (Content Delivery Network) to accelerate global load times and secure the data.
+For modern frontend applications (like React, Vue, or Angular SPA), deploying to an **Amazon S3 Bucket** behind an **Amazon CloudFront** distribution is the industry best practice. It provides global edge caching, scalability, and built-in DDoS protection.
 
-## Step 1: Initialize S3 Bucket
 
-S3 will store the compiled source code (`index.html`, `.js`, `.css`).
 
-1. Open the **S3** service in the AWS Console.
+## Step-by-step Guide
+
+### 1. Build the Frontend Code
+First, build your application locally into static assets.
+
+```bash
+cd frontend
+pnpm install
+pnpm run build
+```
+This will generate a `dist/` or `build/` folder containing your HTML, CSS, and JS files.
+
+### 2. Create an S3 Bucket
+1. Go to the **S3 Console**.
 2. Click **Create bucket**.
-3. **Bucket name**: Enter a globally unique name (e.g., `genzite-frontend-bucket-yourname`).
-4. **AWS Region**: Select `us-east-1` (US East N. Virginia).
-5. **Object Ownership**: Leave it as *ACLs disabled*.
-6. **Block Public Access settings for this bucket**: Keep **Block all public access** checked.
-   *(Note: Following Best Practices, we do not make the S3 bucket public; instead, we grant access exclusively via CloudFront).*
-7. Leave other settings as default and click **Create bucket**.
+3. **Bucket name**: Choose a globally unique name (e.g., `workshop-frontend-app-12345`).
+4. **Block Public Access settings**: Leave "Block all public access" checked (we will use CloudFront OAC to access the bucket securely).
+5. Click **Create bucket**.
 
-## Step 2: Build and Upload Frontend Source Code
+![Create Bucket 1](/images/S3_bucket/bucket_fontend/createbucketfontend1.png)
+![Create Bucket 2](/images/S3_bucket/bucket_fontend/createbucketfontend2.png)
+![Create Bucket 3](/images/S3_bucket/bucket_fontend/createbucketfontend3.png)
 
-Assuming you have the Genzite Frontend source code ready on your local machine.
+### 3. Upload Files to S3
+1. Click on your newly created bucket.
+2. Click **Upload**.
+3. Upload all the contents inside the `dist/` or `build/` folder.
+4. Click **Upload**.
 
-1. Open a terminal and navigate to the Frontend code directory.
-2. Run the build command for the React/Vite app:
-   ```bash
-   npm install
-   npm run build
-   ```
-3. Once completed, a `dist` (or `build`) folder will be generated.
-4. Go back to the AWS S3 console, and click on your newly created bucket.
-5. Click **Upload**, then drag and drop all files/folders **inside** the `dist` directory.
-6. Click **Upload** and wait for the process to finish.
-
-## Step 3: Configure CloudFront with OAC
-
-To allow users to access the website quickly, we will create a CloudFront Distribution and configure **Origin Access Control (OAC)**. OAC ensures that only CloudFront has permission to read files from the S3 bucket.
-
-1. Open the **CloudFront** service in the AWS Console.
-2. Click **Create a CloudFront distribution**.
-3. **Origin domain**: Click the input box and select your newly created S3 bucket.
+### 4. Create a CloudFront Distribution
+1. Go to the **CloudFront Console**.
+2. Click **Create Distribution**.
+3. **Origin domain**: Select your S3 bucket.
 4. **Origin access**: Select **Origin access control settings (recommended)**.
-   - Click the **Create control setting** button, keep the default configuration, and click **Create**.
-5. Scroll down to the **Default cache behavior** section:
-   - **Viewer protocol policy**: Select **Redirect HTTP to HTTPS** (to enforce secure connections).
-6. Scroll down to the **Web Application Firewall (WAF)** section:
-   - Select **Do not enable security protections** (to save costs for this Lab).
-7. Scroll to the bottom and click **Create distribution**.
+   - Click **Create control setting** and save.
+5. **Default cache behavior**:
+   - **Viewer protocol policy**: Redirect HTTP to HTTPS.
+6. **Web Application Firewall (WAF)**: Select "Do not enable security protections" (to avoid extra costs).
+7. **Default root object**: Enter `index.html`.
+8. Click **Create distribution**.
 
-## Step 4: Update S3 Bucket Policy
+### 5. Update S3 Bucket Policy
+CloudFront will generate an S3 bucket policy allowing it to read your bucket.
+1. In the CloudFront distribution view, click **Copy policy**.
+2. Go back to your S3 bucket > **Permissions** tab.
+3. Edit the **Bucket policy** and paste the JSON. Save changes.
 
-After creating the Distribution, a yellow banner will appear prompting you to update the S3 bucket policy to allow CloudFront OAC access.
+![Setup Bucket Policy Frontend](/images/S3_bucket/bucket_fontend/setupbucketpolicyfontend.png)
 
-1. Click the **Copy policy** button.
-2. Click the link `Go to S3 bucket permissions` provided in the banner.
-3. Scroll down to the **Bucket policy** section and click **Edit**.
-4. Paste the JSON you just copied. It should look something like this:
-   ```json
-   {
-       "Version": "2012-10-17",
-       "Statement": {
-           "Sid": "AllowCloudFrontServicePrincipalReadOnly",
-           "Effect": "Allow",
-           "Principal": {
-               "Service": "cloudfront.amazonaws.com"
-           },
-           "Action": "s3:GetObject",
-           "Resource": "arn:aws:s3:::genzite-frontend-bucket-yourname/*",
-           "Condition": {
-               "StringEquals": {
-                   "AWS:SourceArn": "arn:aws:cloudfront::123456789012:distribution/E1A2B3C4D5E6F7"
-               }
-           }
-       }
-   }
-   ```
-5. Click **Save changes**.
+### 6. Test the Frontend
+Once the CloudFront distribution is deployed, copy the **Distribution domain name** (e.g., `d12345.cloudfront.net`) and paste it into your browser. Your frontend is now live!
 
-## Step 5: Verify the Result
+![Test Frontend](/images/S3_bucket/bucket_fontend/test_fontend_db.png)
 
-Return to the CloudFront Distribution details page.
-1. Copy the **Distribution domain name** (it looks like `d1234abcd.cloudfront.net`).
-2. Open a web browser and paste this link.
-3. Wait a few minutes for the Distribution status to change from `Deploying` to complete. You should then see the Genzite web interface!
+### 7. Configure Custom Domain with Route 53 and ACM (Optional)
 
----
-**Lab 1 Complete!** The fundamental infrastructure of our system is now in place. Let's move on to Lab 2 to build the Authentication features for our users.
+To use a custom domain name for your application instead of the default CloudFront domain, you need to configure an SSL/TLS certificate using **AWS Certificate Manager (ACM)** and point your DNS record using **Amazon Route 53**.
+
+1. **Request an ACM Certificate**:
+   - Go to the **ACM Console** and request a public certificate for your domain name.
+   - *Important note: The certificate for CloudFront must be created in the **us-east-1 (N. Virginia)** region.*
+
+![ACM Configuration](images/acm.png)
+
+2. **Update CloudFront**:
+   - Open your CloudFront Distribution, go to **Settings** and click Edit.
+   - Add your domain name to the **Alternate domain name (CNAME)** and select the Custom SSL certificate you just created in ACM.
+
+3. **Create Route 53 Record**:
+   - Go to **Route 53**, open the Hosted Zone for your domain.
+   - Create a new record (Create record), select **A record**, enable the **Alias** toggle, and route traffic to your CloudFront distribution.
+
+![Route 53 Configuration](images/route53.png)

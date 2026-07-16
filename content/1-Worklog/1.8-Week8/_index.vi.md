@@ -8,7 +8,7 @@ pre: " <b> 1.8. </b> "
 ---
 
 
-### Mục tiêu tuần 9:
+### Mục tiêu tuần 8:
 
 * Chuẩn bị môi trường phát triển Backend cho dự án.
 * Thiết lập cấu trúc dự án và các công nghệ sẽ sử dụng.

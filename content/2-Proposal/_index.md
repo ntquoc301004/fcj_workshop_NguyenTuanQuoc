@@ -6,6 +6,7 @@ chapter: false
 pre: " <b> 2. </b> "
 ---
 
+# Genzite: AI-Powered No-Code Web Interface Builder
 ## A Cloud-Native AWS Infrastructure Solution for AI-Driven Frontend Generation
 
 ### 1. Executive Summary
@@ -49,7 +50,7 @@ All React static assets are stored on **S3** and served via **CloudFront** for f
 
 | AWS Service | Role in the System |
 |---|---|
-
+| **Amazon Route 53** | Custom domain management and DNS routing to CloudFront |
 | **Amazon CloudFront** | Global caching and delivery of the React SPA, SSL/TLS via ACM |
 | **Amazon S3** | Hosts all static React application assets (JS, CSS, HTML) |
 | **Amazon Cognito** | User account authentication and JWT token issuance |
@@ -84,7 +85,7 @@ The backend consists of **4 core services**, communicating via **Apache Kafka** 
 | **Event Bus** | Apache Kafka (inter-service communication) |
 | **Authentication** | Amazon Cognito (JWT) |
 | **AI Engine** | Google Gemini 2.0 Flash API |
-| **Infrastructure** | AWS EC2, S3, RDS, ElastiCache, CloudFront, ALB |
+| **Infrastructure** | AWS EC2, S3, RDS, ElastiCache, CloudFront, ALB, Route 53 |
 
 #### Core AI Web Generation Flow
 
@@ -158,7 +159,7 @@ User edits widgets directly on the canvas
    - End-to-end testing: login → submit prompt → render canvas → save
    - Security Group audit (ALB → EC2 only; EC2 → RDS only)
    - Deploy React production build to S3, configure CloudFront cache behaviors
-
+   - Configure Route 53 to point domain to CloudFront distribution
 
 ---
 
@@ -187,7 +188,7 @@ Based on the system architecture diagram, below is the estimated monthly cost (u
 | **Cache (Redis)** | ❌ Redis installed directly on EC2 (~$0) | ✅ Dedicated ElastiCache Redis (~$15–$18/month) |
 | **Security (WAF)** | ❌ Not used (~$0) | ✅ AWS WAF for Web Traffic filtering (~$6–$10/month) |
 | **Static Storage (S3)** | ✅ S3 Frontend & Media bucket (~$1–$3/month) | ✅ S3 Frontend & Media bucket (~$1–$3/month) |
-| **CloudFront** | ✅ CloudFront Free Tier (~$0–$1/month) | ✅ CloudFront (~$2–$5/month) |
+| **CloudFront & Route53** | ✅ CloudFront Free Tier + DNS (~$0–$1/month) | ✅ CloudFront + Route53 Hosted Zone (~$2–$5/month) |
 | **Other Services** | Cognito, IAM, Backup (~$0) | Cognito, AWS Backup, CloudWatch (~$2–$5/month) |
 | **Estimated Total** | **~$31–$40 / month** | **~$104–$128 / month** |
 

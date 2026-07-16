@@ -17,39 +17,65 @@ Trước khi tạo RDS, ta cần nói cho AWS biết Database này được phé
 1. Mở dịch vụ **RDS** trên AWS Console.
 2. Từ menu bên trái, chọn **Subnet groups**.
 3. Nhấn **Create DB subnet group**.
-4. **Name**: `genzite-db-subnet-group`.
-5. **Description**: `Subnet group cho Genzite RDS trong Private Subnet`.
+4. **Name**: `genzite-subnet-rds`.
+5. **Description**: `genzite-subnet-rds`.
 6. **VPC**: Chọn `genzite-vpc`.
+![Create Subnet Group](./images/5.4.1.1.png)
 7. Kéo xuống phần **Add subnets**:
-   - Chọn **Availability Zones**: Chọn các AZ mà bạn đã tạo Subnet ở Lab 1.
-   - Chọn **Subnets**: Đánh dấu tích vào các **Private Subnets** (Hãy cẩn thận nhìn vào cột CIDR block để đảm bảo bạn không chọn nhầm Public Subnet).
+   - Chọn **Availability Zones**: Chọn `us-east-1a` và `us-east-1b`.
+   - Chọn **Subnets**: Chọn 2 **Private Subnets**
+![Subnet Group](./images/5.4.1.2.png)
 8. Nhấn **Create**.
-
+![Create Done](./images/5.4.1.3.png)
 ## Bước 2: Khởi tạo Database Instance
 
-1. Từ menu bên trái, chọn **Databases** và nhấn **Create database**.
-2. **Choose a database creation method**: Chọn **Standard create**.
-3. **Engine options**: Chọn **PostgreSQL**.
-4. **Templates**: Chọn **Free tier** (Rất quan trọng để không phát sinh chi phí lớn).
+1. Từ menu bên trái, chọn **Databases** và nhấn **Create database** và chọn **Full Configuration**
+![Create RDS](./images/5.4.1.4.png)
+2. **Engine options**: Chọn **PostgreSQL** (Phiên bản `PostgreSQL 16.14-R2`).
+4. **Templates**: Chọn **Sand box**
 5. **Settings**:
-   - **DB instance identifier**: `genzite-db`.
-   - **Master username**: `postgres` (mặc định).
-   - **Master password**: Nhập mật khẩu đủ mạnh (Ví dụ: `GenziteDBPass123!`). Ghi nhớ mật khẩu này.
+   - **DB instance identifier**: `genzitedb`.
+   - **Master username**: `genzite_admin`.
+   - **Credentials management**: Chọn **Self managed**.
+   - **Master password**: Nhập mật khẩu đủ mạnh và xác nhận lại ở ô **Confirm master password**.
+![Credentials](./images/5.4.1.6.png)
+![Authentication](./images/5.4.1.7.png)
+
 6. **Instance configuration**:
-   - DB instance class: Chọn `db.t4g.micro` (Dòng chip ARM tiết kiệm chi phí).
+   - Instance type: Chọn `db.t3.micro`.
 7. **Storage**:
-   - Allocated storage: `20` GB.
-   - Bỏ tích **Enable storage autoscaling**.
+   - **Storage type**: Chọn **General Purpose SSD (gp2)**.
+   - **Allocated storage**: `30` GiB.
+   - Bỏ tích **Enable storage autoscaling** (trong phần Additional storage configuration nếu có).
+
 8. **Connectivity**:
+   - **Compute resource**: Chọn **Don't connect to an EC2 compute resource**.
+   - **Network type**: Chọn **IPv4**. 
+![Storage & Connectivity](./images/5.4.1.8.png)
    - **Virtual private cloud (VPC)**: Chọn `genzite-vpc`.
-   - **DB Subnet Group**: Chọn `genzite-db-subnet-group` bạn vừa tạo.
+   - **DB Subnet Group**: Chọn `genzite-subnet-rds`.
    - **Public access**: Chọn **No** (Database không được phép truy cập từ Internet).
-   - **VPC security group (firewall)**: Chọn **Choose existing**, loại bỏ thẻ `default`, và chọn `genzite-rds-sg` (Đã tạo ở Lab 1 - Security).
-9. **Database authentication**: Để mặc định (Password authentication).
-10. Mở rộng phần **Additional configuration**:
-    - Nhập **Initial database name**: `genzite`. *(Nếu không nhập ô này, RDS sẽ không tạo sẵn Database cho bạn)*.
-    - Kéo xuống bỏ tích **Enable automated backups** (Để tiết kiệm dung lượng lưu trữ cho bài Lab).
-11. Kiểm tra lại thông tin, cuộn xuống dưới cùng và nhấn **Create database**.
+    - **VPC security group (firewall)**: Chọn **Choose existing**, loại bỏ thẻ `default`, và chọn `genzite-rds-sg` (Đã tạo ở Lab 1 - Security).
+   ![Public Access](./images/5.4.1.5.png)
+
+9. **Database authentication**: Chọn **Password authentication**.
+10. **Monitoring**:
+    - **Database Insights**: Chọn **Database Insights - Standard**.
+    - **Performance Insights**: Bỏ tích **Enable Performance Insights**.
+    - **Enhanced Monitoring**: Bỏ tích **Enable Enhanced monitoring**.
+![Monitoring](./images/5.4.1.9.png)
+
+11. Mở rộng phần **Additional configuration**:
+    - **Database options**:
+      - Nhập **Initial database name**: `genzite`. *(Nếu không nhập ô này, RDS sẽ không tạo sẵn Database cho bạn)*.
+      - **DB parameter group**: Chọn `default.postgres16`.
+    - **Encryption**: Bỏ tích **Enable encryption**.
+    - **Backup**:
+      - Tích chọn **Enable automated backup**.
+      - **Backup retention period**: Chọn `1 day`.
+![Additional configuration](./images/5.4.1.10.png)
+
+12. Kiểm tra lại thông tin, cuộn xuống dưới cùng và nhấn **Create database**.
 
 ## Bước 3: Lấy Endpoint kết nối
 

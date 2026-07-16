@@ -8,7 +8,7 @@ pre: " <b> 1.8. </b> "
 ---
 
 
-### Objectives of Week 9:
+### Objectives of Week 8:
 
 * Prepare the backend development environment for the final project.
 * Set up the project structure and required technologies.

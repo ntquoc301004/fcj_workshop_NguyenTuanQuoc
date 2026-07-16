@@ -16,13 +16,13 @@ chapter: false
 
 &emsp; **Ngành:** Công nghệ thông tin
 
-&emsp; **Lớp:** AWS042026
+&emsp; **Lớp:** 22DTHE3
 
 &emsp; **Công ty thực tập:** Công ty TNHH Amazon Web Services Vietnam
 
 &emsp; **Vị trí thực tập:** FCJ Cloud Intern
 
-&emsp; **Thời gian thực tập:** Từ ngày 17/04/2026 đến ngày 14/7/2026
+&emsp; **Thời gian thực tập:** Từ ngày 17/04/2026 đến ngày 30/7/2026
 
 ![Ảnh đại diện của bạn](/images/avatar2.png)
 

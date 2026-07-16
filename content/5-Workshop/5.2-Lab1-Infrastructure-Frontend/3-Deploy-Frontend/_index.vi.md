@@ -1,91 +1,117 @@
 ---
 title: "3. Triển khai Frontend"
-weight: 3
+weight: 23
 chapter: false
-pre: " <b> 5.2.3. </b> "
+pre: "<b>5.2.3. </b>"
 ---
 
+# 5.2.3 Triển khai Frontend
 
-Trong phần này, chúng ta sẽ triển khai ứng dụng frontend (được build bằng React/Vite) lên môi trường AWS một cách tối ưu nhất: sử dụng Amazon S3 để lưu trữ file tĩnh và Amazon CloudFront làm CDN (Mạng phân phối nội dung) nhằm tăng tốc độ tải trang toàn cầu và bảo mật dữ liệu.
+Đối với các ứng dụng frontend hiện đại (như React, Vue, hoặc Angular SPA), việc triển khai lên **Amazon S3 Bucket** và phân phối qua **Amazon CloudFront** là best practice trong ngành. Nó cung cấp khả năng caching ở edge location toàn cầu, khả năng mở rộng không giới hạn và tính năng chống DDoS tích hợp.
 
-## Bước 1: Khởi tạo S3 Bucket
 
-S3 sẽ là nơi lưu trữ toàn bộ source code đã được build (`index.html`, `.js`, `.css`).
 
-1. Mở dịch vụ **S3** trên AWS Console.
+## Hướng dẫn từng bước
+
+### 1. Build source code Frontend
+Đầu tiên, hãy build ứng dụng của bạn ở local thành các file tĩnh.
+
+```bash
+cd frontend
+pnpm install
+pnpm run build
+```
+Quá trình này sẽ sinh ra một thư mục `dist/` hoặc `build/` chứa các file HTML, CSS và JS.
+
+### 2. Tạo S3 Bucket
+1. Truy cập **S3 Console**.
 2. Nhấn **Create bucket**.
-3. **Bucket name**: Đặt một tên duy nhất toàn cầu (ví dụ: `genzite-frontend-bucket-tencuaban`).
-4. **AWS Region**: Chọn `us-east-1` (US East N. Virginia).
-5. **Object Ownership**: Để mặc định là *ACLs disabled*.
-6. **Block Public Access settings for this bucket**: Đánh dấu tích vào **Block all public access**.
-   *(Lưu ý: Theo Best Practice, ta không mở public S3 bucket mà sẽ cấp quyền truy cập thông qua CloudFront).*
-7. Các thông số khác để mặc định và nhấn **Create bucket**.
+3. **Bucket name**: Chọn một tên duy nhất trên toàn cầu (ví dụ: `workshop-frontend-app-12345`).
+4. **Block Public Access settings**: Để nguyên tùy chọn "Block all public access" (chúng ta sẽ dùng CloudFront OAC để truy cập bảo mật).
+5. Nhấn **Create bucket**.
 
-## Bước 2: Build và Upload Source Code Frontend
+![Create Bucket 1](/images/S3_bucket/bucket_fontend/createbucketfontend1.png)
+![Create Bucket 2](/images/S3_bucket/bucket_fontend/createbucketfontend2.png)
+![Create Bucket 3](/images/S3_bucket/bucket_fontend/createbucketfontend3.png)
 
-Giả định rằng bạn đã có sẵn mã nguồn Frontend của Genzite trên máy tính.
+### 3. Upload File lên S3
+1. Nhấn vào bucket vừa tạo.
+2. Nhấn **Upload**.
+3. Upload toàn bộ nội dung *bên trong* thư mục `dist/` hoặc `build/`.
+4. Nhấn **Upload**.
 
-1. Mở terminal trên máy tính của bạn và đi đến thư mục code Frontend.
-2. Chạy lệnh build ứng dụng React/Vite:
-   ```bash
-   npm install
-   npm run build
-   ```
-3. Sau khi build xong, bạn sẽ có một thư mục `dist` (hoặc `build`).
-4. Quay lại giao diện AWS S3, click vào bucket bạn vừa tạo.
-5. Nhấn **Upload**, kéo và thả toàn bộ các file/folder **bên trong** thư mục `dist` vào.
-6. Nhấn **Upload** và chờ quá trình hoàn tất.
+### 3b. Tạo S3 Media Bucket
+Trong hệ thống Genzite, Media Bucket dùng để lưu trữ ảnh/video do người dùng tải lên.
+1. Quay lại trang chủ **S3 Console**.
+2. Nhấn **Create bucket**.
+3. **Bucket name**: Đặt tên (ví dụ: `genzite-media-bucket`).
+4. **Object Ownership**: Chọn `ACLs enabled` (nếu muốn dùng public read).
+5. **Block Public Access settings**: Bỏ check "Block all public access" để cho phép người dùng xem ảnh công khai. Xác nhận rủi ro.
+6. Nhấn **Create bucket**.
 
-## Bước 3: Cấu hình CloudFront với OAC
+![Create Media Bucket 1](/images/S3_bucket/bucket_media/createbucketmedia1.png)
+![Create Media Bucket 2](/images/S3_bucket/bucket_media/createbucketmedia2.png)
+![Create Media Bucket 3](/images/S3_bucket/bucket_media/createbucketmedia3.png)
 
-Để người dùng có thể truy cập website nhanh chóng, ta sẽ tạo một CloudFront Distribution và cấu hình **Origin Access Control (OAC)**. OAC giúp chỉ có CloudFront mới có quyền đọc file từ S3 bucket.
+Cấu hình CORS cho Media Bucket:
+1. Mở Media Bucket > Tab **Permissions**.
+2. Cuộn xuống phần **Cross-origin resource sharing (CORS)**, nhấn Edit.
+3. Dán đoạn JSON cấu hình CORS sau đây (cho phép GET, PUT, POST) và lưu lại:
 
-1. Mở dịch vụ **CloudFront** trên AWS Console.
-2. Nhấn **Create a CloudFront distribution**.
-3. **Origin domain**: Bấm vào ô này và chọn S3 bucket bạn vừa tạo.
+
+![Setup CORS Media](/images/S3_bucket/bucket_media/setupCORSmedia.png)
+
+Cấu hình Bucket Policy để cho phép đọc công khai (Public Read):
+1. Vẫn ở tab **Permissions**, cuộn lên **Bucket policy**, nhấn Edit.
+2. Dán policy sau đây để cho phép hành động `s3:GetObject` từ mọi nguồn `*`. (Lưu ý: Nhớ thay `YOUR_BUCKET_NAME` bằng tên thật bucket của bạn):
+
+
+![Setup Bucket Policy Media](/images/S3_bucket/bucket_media/setupbucketpolicymedia.png)
+
+![Test Media](/images/S3_bucket/bucket_media/test_media_db.png)
+
+### 4. Tạo CloudFront Distribution
+1. Truy cập **CloudFront Console**.
+2. Nhấn **Create Distribution**.
+3. **Origin domain**: Chọn S3 bucket của bạn.
 4. **Origin access**: Chọn **Origin access control settings (recommended)**.
-   - Nhấn nút **Create control setting** và giữ nguyên cấu hình mặc định, sau đó nhấn **Create**.
-5. Kéo xuống phần **Default cache behavior**:
-   - **Viewer protocol policy**: Chọn **Redirect HTTP to HTTPS** (để ép buộc dùng kết nối an toàn).
-6. Kéo xuống phần **Web Application Firewall (WAF)**:
-   - Chọn **Do not enable security protections** (để tiết kiệm chi phí cho bài Lab).
-7. Kéo xuống dưới cùng và nhấn **Create distribution**.
+   - Nhấn **Create control setting** và lưu lại.
+5. **Default cache behavior**:
+   - **Viewer protocol policy**: Chọn Redirect HTTP to HTTPS.
+6. **Web Application Firewall (WAF)**: Chọn "Do not enable security protections" (để tiết kiệm chi phí).
+7. **Default root object**: Nhập `index.html`.
+8. Nhấn **Create distribution**.
 
-## Bước 4: Cập nhật S3 Bucket Policy
+### 5. Cập nhật S3 Bucket Policy
+CloudFront sẽ tự động sinh ra một đoạn policy cho S3 bucket để cấp quyền đọc. 
+1. Tại giao diện phân phối CloudFront, sau khi tạo xong, bạn sẽ thấy thông báo cập nhật policy, hãy nhấn **Copy policy**.
+2. Quay lại S3 bucket (Frontend) của bạn > tab **Permissions**.
+3. Chỉnh sửa **Bucket policy**, dán đoạn JSON vào và lưu lại. Đoạn policy đó sẽ có cấu trúc như sau (chỉ cho phép CloudFront đọc dữ liệu):
 
-Sau khi tạo Distribution, màn hình sẽ hiện một thanh thông báo màu vàng yêu cầu bạn cập nhật S3 bucket policy để cho phép CloudFront OAC truy cập.
 
-1. Nhấn nút **Copy policy**.
-2. Click vào link `Go to S3 bucket permissions` ở ngay thông báo đó.
-3. Cuộn xuống phần **Bucket policy** và nhấn **Edit**.
-4. Dán đoạn JSON vừa copy vào. Trông nó sẽ tương tự như sau:
-   ```json
-   {
-       "Version": "2012-10-17",
-       "Statement": {
-           "Sid": "AllowCloudFrontServicePrincipalReadOnly",
-           "Effect": "Allow",
-           "Principal": {
-               "Service": "cloudfront.amazonaws.com"
-           },
-           "Action": "s3:GetObject",
-           "Resource": "arn:aws:s3:::genzite-frontend-bucket-tencuaban/*",
-           "Condition": {
-               "StringEquals": {
-                   "AWS:SourceArn": "arn:aws:cloudfront::123456789012:distribution/E1A2B3C4D5E6F7"
-               }
-           }
-       }
-   }
-   ```
-5. Nhấn **Save changes**.
+![Setup Bucket Policy Frontend](/images/S3_bucket/bucket_fontend/setupbucketpolicyfontend.png)
 
-## Bước 5: Kiểm tra kết quả
+### 6. Kiểm tra ứng dụng Frontend
+Khi CloudFront distribution chuyển trạng thái Deploy hoàn tất, hãy copy **Distribution domain name** (ví dụ: `d12345.cloudfront.net`) và dán vào trình duyệt. Ứng dụng frontend của bạn đã hoạt động!
 
-Quay lại màn hình chi tiết của CloudFront Distribution.
-1. Sao chép **Distribution domain name** (có dạng `d1234abcd.cloudfront.net`).
-2. Mở trình duyệt web và dán đường link này vào.
-3. Chờ vài phút để trạng thái của Distribution chuyển từ `Deploying` sang hoàn thành. Bạn sẽ thấy giao diện web Genzite xuất hiện!
+![Test Frontend](/images/S3_bucket/bucket_fontend/test_fontend_db.png)
 
----
-**Hoàn thành Lab 1!** Kiến trúc cơ bản của hệ thống đã thành hình. Chúng ta hãy bước tiếp sang Lab 2 để xây dựng tính năng Xác thực đăng nhập (Authentication) cho người dùng.
+### 7. Cấu hình Custom Domain với Route 53 và ACM (Tùy chọn)
+
+Để sử dụng tên miền riêng (Custom Domain) cho ứng dụng thay vì domain mặc định của CloudFront, bạn cần cấu hình chứng chỉ bảo mật bằng **AWS Certificate Manager (ACM)** và trỏ bản ghi DNS bằng **Amazon Route 53**.
+
+1. **Xin cấp chứng chỉ ACM**: 
+   - Truy cập giao diện **ACM Console** và yêu cầu cấp chứng chỉ public (Request public certificate) cho tên miền của bạn.
+   - *Lưu ý quan trọng: Chứng chỉ dùng cho CloudFront bắt buộc phải được tạo ở Region **us-east-1 (N. Virginia)**.*
+
+![Cấu hình ACM](images/acm.png)
+
+2. **Cập nhật CloudFront**: 
+   - Mở CloudFront Distribution của bạn, phần **Settings** chọn Edit. 
+   - Thêm tên miền của bạn vào **Alternate domain name (CNAME)** và chọn Custom SSL certificate mà bạn vừa tạo ở ACM.
+
+3. **Tạo bản ghi Route 53**: 
+   - Truy cập **Route 53**, mở Hosted Zone của tên miền. 
+   - Tạo một bản ghi mới (Create record), loại **A record**, bật công tắc **Alias** và trỏ (Route traffic to) tới CloudFront distribution của bạn.
+
+![Cấu hình Route 53](images/route53.png)

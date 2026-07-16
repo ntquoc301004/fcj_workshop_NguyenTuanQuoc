@@ -10,7 +10,7 @@ In this section, we will create and configure the Virtual Private Cloud (VPC) fo
 
 ## Objectives
 - Create a custom VPC with a CIDR block of `10.0.0.0/16`.
-- Configure 1 Public Subnet and 1 Private Subnet in 1 Availability Zone.
+- Configure 2 Public Subnets and 2 Private Subnets across 2 Availability Zones.
 - Set up an Internet Gateway (IGW) to allow internet access for the Public Subnet.
 - Set up a NAT Gateway to allow outbound internet access for the Private Subnet.
 - Set up an S3 Gateway Endpoint for private access to S3 from within the VPC.
@@ -28,9 +28,9 @@ In this section, we will create and configure the Virtual Private Cloud (VPC) fo
 
 ![Create VPC Step 1](./images/create-vpc-step1.png)
 
-   - **Number of Availability Zones (AZs)**: `1`.
-   - **Number of public subnets**: `1`.
-   - **Number of private subnets**: `1`.
+   - **Number of Availability Zones (AZs)**: `2`.
+   - **Number of public subnets**: `2`.
+   - **Number of private subnets**: `2`.
    - **NAT gateways ($)**: Select **Zonal** and **In 1 AZ** (This creates a NAT Gateway for the Private Subnet).
    - **VPC endpoints**: Select **S3 Gateway**.
    - **DNS options**: Ensure both **Enable DNS hostnames** and **Enable DNS resolution** are checked.
@@ -50,6 +50,9 @@ If you chose **None** for NAT gateways during VPC creation (to save initial cost
    - **Subnet**: Select your Public Subnet (e.g., `genzite-subnet-public1-us-east-1a`)
    - **Connectivity type**: `Public`
    - **Elastic IP allocation ID**: Click the **Allocate Elastic IP** button
+
+![Create NAT Gateway](./images/create-nat-gw.png)
+
 4. Click **Create NAT gateway** and wait a few minutes for the status to change to **Available**.
 *(Note: If created manually, you must go to your Private Subnet's Route Table and add a route for `0.0.0.0/0` pointing to the newly created NAT Gateway).*
 
@@ -57,12 +60,12 @@ If you chose **None** for NAT gateways during VPC creation (to save initial cost
 
 The creation process will take a few minutes as AWS needs to provision the resources. Once finished, verify the following:
 
-1. **Subnets**: Go to **Subnets** in the left menu and ensure you have 1 Public Subnet and 1 Private Subnet associated with your `genzite-vpc`.
+1. **Subnets**: Go to **Subnets** in the left menu and ensure you have 2 Public Subnets and 2 Private Subnets associated with your `genzite-vpc`.
 2. **Internet Gateways**: Go to **Internet Gateways** and ensure 1 IGW is in the **Attached** state to your `genzite-vpc`.
 3. **NAT Gateways**: Go to **NAT Gateways** and ensure 1 NAT Gateway is in the **Available** state.
 4. **Route Tables**: Go to **Route Tables**.
-   - Ensure there is 1 Route Table for the Public Subnet (with a route `0.0.0.0/0` pointing to the Internet Gateway).
-   - Ensure there is 1 Route Table for the Private Subnet (with a route `0.0.0.0/0` pointing to the NAT Gateway, and a route to the S3 Gateway Endpoint).
+   - Ensure there is 1 Route Table for the Public Subnets (shared across both AZs, with a route `0.0.0.0/0` pointing to the Internet Gateway).
+   - Ensure there are 2 Route Tables for the Private Subnets (one per AZ, each with a route `0.0.0.0/0` pointing to the NAT Gateway, and a route to the S3 Gateway Endpoint).
 
 ## Step 3: Enable Auto-assign public IPv4 address
 

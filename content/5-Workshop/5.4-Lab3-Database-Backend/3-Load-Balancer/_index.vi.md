@@ -12,59 +12,70 @@ Giải pháp chuẩn AWS là sử dụng một **Application Load Balancer (ALB)
 
 ## Bước 1: Tạo Target Group
 
-Target Group là một nhóm chứa các máy chủ (EC2) mà ALB sẽ điều phối traffic tới.
+Target Group là một nhóm chứa các máy chủ (EC2) mà ALB sẽ điều phối traffic tới. Chúng ta sẽ tạo 2 Target Group: một cho Backend và một cho Frontend.
 
+### 1.1. Tạo Target Group cho Backend
 1. Mở dịch vụ **EC2**, cuộn xuống menu bên trái phần **Load Balancing**, chọn **Target Groups**.
 2. Nhấn **Create target group**.
 3. **Choose a target type**: Chọn **Instances**.
 4. **Target group name**: `genzite-backend-tg`.
-5. **Protocol**: `HTTP`. **Port**: `3000` (Port mà NestJS đang chạy).
+![Config Target group](./images/5.4.3.1.png)
+5. **Protocol**: `HTTP`. **Port**: `3000` (Port mà Backend API đang chạy).
 6. **VPC**: Chọn `genzite-vpc`.
 7. **Health checks**: Để mặc định (Protocol: HTTP, Path: `/`).
-   *(Lưu ý: Bạn phải đảm bảo API của mình có route trả về status code 200 ở đường dẫn `/` để Health check pass).*
+   *(Lưu ý: API cần có route trả về status code 200 ở đường dẫn `/` để Health check báo Healthy).*
+![Config Target group](./images/5.4.3.2.png)
 8. Nhấn **Next**.
-9. Tại màn hình **Register targets**, chọn máy chủ `genzite-backend-ec2` ở danh sách bên dưới.
+9. Tại màn hình **Register targets**, chọn máy chủ `genzite-backend` ở danh sách bên dưới.
 10. Sửa port thành `3000` và nhấn **Include as pending below**.
-11. Cuộn xuống nhấn **Create target group**.
+11. Cuộn xuống và chọn **Create target group**.
+
+### 1.2. Tạo Target Group cho Frontend
+1. Từ màn hình **Target Groups**, tiếp tục nhấn **Create target group** và tạo tương tự như **genzite-backend-tg**.
+2. **Choose a target type**: Chọn **Instances**.
+3. **Target group name**: `frontend-tg`.
+4. **Protocol**: `HTTP`. **Port**: `5173` (Port mà Frontend đang chạy).
+5. **VPC**: Chọn `genzite-vpc`.
+6. **Health checks**: Để mặc định (Protocol: HTTP, Path: `/`).
+7. Nhấn **Next**.
+8. Tại màn hình **Register targets**, chọn máy chủ `genzite-backend` ở danh sách bên dưới.
+9. Đảm bảo port là `5173` và nhấn **Include as pending below**.
+10. Cuộn xuống và chọn **Create target group**.
 
 ## Bước 2: Khởi tạo Application Load Balancer
 
-1. Ở menu bên trái, chọn **Load Balancers**.
+1. Truy cập dịch vụ **EC2**, ở menu bên trái chọn **Load Balancers**.
 2. Nhấn **Create load balancer**.
-3. Tại phần **Application Load Balancer**, nhấn **Create**.
+3. Chọn **Application Load Balancer** và nhấn **Create**.
 4. **Load balancer name**: `genzite-alb`.
-5. **Scheme**: Chọn **Internet-facing** (Quan trọng: Để ALB có thể nhận traffic từ internet).
-6. **IP address type**: `IPv4`.
-7. **Network mapping**:
+5. **Scheme**: Chọn **Internet-facing**.
+![Config Target group](./images/5.4.3.5.png)
+6. **Network mapping**:
    - **VPC**: Chọn `genzite-vpc`.
-   - **Mappings**: Chọn ít nhất 2 **Availability Zones** và chọn các **Public Subnets** tương ứng (ALB bắt buộc phải ở Public Subnet).
-8. **Security groups**:
-   - Xoá group `default`.
-   - Chọn `genzite-alb-sg` (Đã tạo ở Lab 1).
-9. **Listeners and routing**:
+   - **Mappings**: Chọn 2 **Availability Zones** và tương ứng chọn 2 **Public Subnets**.
+![Config Target group](./images/5.4.3.6.png)
+7. **Security groups**:
+   - Chọn `genzite-alb-sg`. (Cấu hình Inbound rule cho phép truy cập HTTP/HTTPS).
+8. **Listeners and routing**:
    - **Protocol**: `HTTP`. **Port**: `80`.
-   - **Default action**: Chọn Target group `genzite-backend-tg` bạn vừa tạo.
-10. Nhấn **Create load balancer**.
+   - **Default action**: Chọn Target group `frontend-tg` (để dẫn vào Frontend).
+   ![Config Target group](./images/5.4.3.7.png)
+9. Các phần còn lại giữ nguyên và nhấn **Create load balancer**.
 
-## Bước 3: Kiểm tra luồng gọi API
+## Bước 3: Cấu hình Rule chuyển tiếp API
 
-Việc khởi tạo ALB sẽ mất khoảng 3-5 phút (Trạng thái chuyển từ `Provisioning` sang `Active`).
+Để các request gọi tới `/api/*` được chuyển vào Backend thay vì Frontend, ta sẽ thêm một Rule cho ALB.
 
-1. Khi ALB ở trạng thái `Active`, click vào tên `genzite-alb`.
-2. Sao chép **DNS name** của ALB (ví dụ: `genzite-alb-123456789.us-east-1.elb.amazonaws.com`).
-3. Dán địa chỉ DNS này lên trình duyệt (Nhớ dùng `http://` thay vì `https://`).
-4. Nếu màn hình trả về kết quả JSON từ API của bạn, xin chúc mừng! ALB đã định tuyến thành công request từ Internet vào thẳng máy chủ EC2 ở Private Subnet.
+1. Chọn vào Load Balancer `genzite-alb` vừa tạo.
+2. Ở tab **Listeners and rules**, click vào phần `1 rule` (hoặc nhấn trực tiếp vào listener HTTP:80).
+3. Chọn vào rule **Default** và bấm **Add rule**.
+4. Tại phần **Conditions**, bấm **Add condition**, chọn **Path** và điền giá trị là `/api/*`.
+5. Kéo xuống phần **Actions**, chọn **Forward to** và chọn Target group `genzite-backend-tg`.
+6. Tại **Rule priority**, đặt Priority là `1`.
+7. Bấm **Add rule** để lưu.
+   ![Config Target group](./images/5.4.3.8.png)
 
-## Bước 4: Cập nhật biến môi trường trên Frontend
-
-Bước cuối cùng của Lab này là cập nhật lại URL API trên Frontend.
-
-1. Mở lại file `.env` ở dự án Frontend.
-2. Thêm biến chứa URL của ALB (Đừng quên thêm `http://`):
-   ```env
-   VITE_API_BASE_URL=http://genzite-alb-123456789.us-east-1.elb.amazonaws.com
-   ```
-3. Sau khi cập nhật, hãy nhớ `npm run build` và deploy lại Frontend lên S3 nếu cần.
+Sau khi tạo thành công, ALB của bạn đã sẵn sàng điều hướng các truy cập giao diện vào Frontend, và các truy cập dữ liệu vào Backend!
 
 ---
-**Hoàn thành Lab 3!** Bạn đã sở hữu một hạ tầng Backend hoàn chỉnh gồm Database an toàn, máy chủ EC2 bảo mật và ALB điều phối thông minh. Hãy chuyển sang **Lab 4** để tích hợp trí tuệ nhân tạo (Gemini API) với cơ chế bất đồng bộ nhé.
+**Hoàn thành Lab 3!** Bạn đã sở hữu một hạ tầng Backend hoàn chỉnh gồm Database an toàn, máy chủ EC2 bảo mật và ALB điều phối thông minh. Hãy chuyển sang **Lab 4** để tích hợp trí tuệ nhân tạo (Gemini API).

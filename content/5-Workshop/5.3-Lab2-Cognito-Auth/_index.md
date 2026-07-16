@@ -1,29 +1,83 @@
 ---
-title: "Lab 2: Authentication with Cognito"
+title: "Lab 2: Cognito Authentication"
 weight: 3
 chapter: false
-pre: " <b> 5.3. </b> "
+pre: "<b>5.3. </b>"
 ---
-
-
-Welcome to **Lab 2**. In this module, we will build an identity management and access control system for our application users using **Amazon Cognito**.
 
 ## Overview
 
-Most real-world applications require features like sign-up, sign-in, and user data security. Instead of building this from scratch (which is time-consuming and prone to security risks), we will leverage Amazon Cognito—a robust Identity as a Service (IDaaS) provider.
+Security is a top priority for any project. In this Lab, we will explore how Genzite utilizes **Amazon Cognito** to provide Login/Registration functionality (Authentication) rather than building a custom password management system.
 
-In this lab, you will learn how to:
-- Provision a user directory (User Pool).
-- Configure an App Client to allow Web/Mobile applications to call authentication APIs.
-- Retrieve and use JSON Web Tokens (JWT) to authorize user access.
+## Lab Objectives
+1. Integrate AWS Amplify into the Frontend (React) to call Cognito APIs.
+2. Understand how the Backend validates the JWT Token issued by Cognito.
+3. Learn how the Cognito User ID is synchronized with the local Database.
 
-## Step-by-Step Instructions
+## Cognito Configuration in Source Code
 
-Lab 2 consists of the following sections. Please follow them in order:
+In the `infra/.env` file, Cognito parameters are loaded into environment variables:
 
-- **[1. Create User Pool](1-create-userpool/)**: Initialize and configure rules for accounts (e.g., email verification, password policies).
-- **[2. App Integration](2-app-integration/)**: Create an App Client and insert the parameters into the Frontend code.
-- **[3. Test Authentication](3-test-authentication/)**: Execute the Sign-up and Sign-in flows directly on the web interface.
+```ini
+VITE_COGNITO_AUTHORITY=https://cognito-idp.us-east-1.amazonaws.com/us-east-1_JN6WuwuuM
+VITE_COGNITO_CLIENT_ID=20gjbjlmo2pekj4jfj98js6ilk
+VITE_COGNITO_DOMAIN=https://genzite.auth.us-east-1.amazoncognito.com
+```
 
----
-Let's get started with the first step: **[Create User Pool](1-create-userpool/)**.
+## Frontend Integration
+
+Genzite uses the `@aws-amplify/auth` library to communicate with Cognito. 
+In `apps/frontend/src/main.tsx`, the Amplify configuration is loaded dynamically:
+
+```typescript
+const cognitoUserPoolId = import.meta.env.VITE_COGNITO_AUTHORITY?.split("/").pop() || "";
+const cognitoClientId = import.meta.env.VITE_COGNITO_CLIENT_ID || "";
+
+if (cognitoUserPoolId && cognitoClientId && !cognitoUserPoolId.includes("xxxxxx")) {
+  Amplify.configure({
+    Auth: {
+      Cognito: {
+        userPoolId: cognitoUserPoolId,
+        userPoolClientId: cognitoClientId,
+      },
+    },
+  });
+}
+```
+
+In `Login.tsx`, the Amplify `signIn` function is invoked. Upon a successful login, Cognito returns Tokens (Access Token, Id Token, Refresh Token), which are stored in the Global State using Zustand (`auth.ts`).
+
+## Backend Integration
+
+When the Frontend sends a request to the API, the Cognito Access Token is attached in the `Authorization: Bearer <token>` Header.
+
+### 1. API Gateway Verification
+
+The `apps/gateway/src/auth/auth.middleware.ts` intercepts requests to verify token validity. It decodes the JWT and extracts the `sub` (Cognito User ID):
+
+```typescript
+const decodedToken = jwt.decode(token) as any;
+if (decodedToken && decodedToken.iss && decodedToken.iss.includes("cognito-idp.")) {
+  // AWS Cognito token - trusted in dev environment
+  decoded = {
+    sub: decodedToken.sub,
+    email: decodedToken.email || decodedToken.username,
+    roles: decodedToken["cognito:groups"] || ["ADMIN", "USER"],
+  };
+}
+```
+
+### 2. Database Synchronization in Identity Service
+
+Every user in Cognito has a unique ID called a `sub`. When a user logs in for the first time, `apps/identity-service/src/users/users.service.ts` synchronizes this ID into the PostgreSQL Database using a Raw SQL command to ensure data integrity:
+
+```typescript
+// Update user ID to match Cognito sub via raw SQL
+await this.prisma.$executeRawUnsafe(
+  `UPDATE "identity"."users" SET id = $1 WHERE email = $2`,
+  decoded.sub,
+  decoded.email
+);
+```
+
+Thanks to this mechanism, all relational data in Genzite consistently references the Cognito ID!
