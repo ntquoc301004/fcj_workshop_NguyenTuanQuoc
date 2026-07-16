@@ -6,40 +6,35 @@ pre: " <b> 5.3.2. </b> "
 ---
 
 
-Sau khi có User Pool, bước tiếp theo là lấy các tham số kết nối để đưa vào mã nguồn Frontend (React). AWS cung cấp thư viện `aws-amplify` giúp việc gọi các hàm đăng nhập/đăng ký vô cùng đơn giản.
+Sau khi User Pool đã sẵn sàng, bước tiếp theo là lấy các thông số kết nối để đưa vào mã nguồn Frontend (React). AWS cung cấp thư viện `aws-amplify` giúp việc gọi các hàm xác thực (đăng ký/đăng nhập) trở nên vô cùng đơn giản.
 
-## Bước 1: Lấy thông tin User Pool ID và Client ID
+## Bước 1: Lấy User Pool ID và Client ID
 
-1. Tại giao diện **Cognito**, click vào User Pool `genzite-user-pool` bạn vừa tạo.
-2. Sao chép **User pool ID** (có dạng `us-east-1_xxxxxxxxx`) và lưu vào một file text tạm thời.
+1. Trong console của **Cognito**, nhấn vào `genzite-user-pool` bạn vừa tạo.
+2. Copy **User pool ID** (có dạng `us-east-1_xxxxxxxxx`) và lưu ra một file text tạm.
 3. Chuyển sang tab **App integration**.
-4. Kéo xuống phần **App client list**, bạn sẽ thấy `genzite-react-client`.
-5. Sao chép **Client ID** (một chuỗi khoảng 26 ký tự) và lưu lại.
+4. Kéo xuống mục **App client list**, bạn sẽ thấy `genzite-web-app`.
+5. Copy **Client ID** (một chuỗi gồm chữ và số khoảng 26 ký tự) và lưu lại.
 
-## Bước 2: Cấu hình biến môi trường trên Frontend
+## Bước 2: Cấu hình biến môi trường ở Frontend
 
-Trong thư mục source code Frontend của Genzite, tìm file `.env` (nếu chưa có thì tạo mới file `.env` ở thư mục gốc của project Frontend).
+Trong thư mục mã nguồn Frontend của Genzite, tìm file `.env` (tạo file `.env` mới ở thư mục gốc của project nếu chưa có).
 
-Dán các thông tin bạn vừa lấy được vào file này:
+Dán các thông tin vừa lấy được vào file này:
 
-```env
-VITE_AWS_REGION=us-east-1
-VITE_COGNITO_USER_POOL_ID=us-east-1_xxxxxxxxx
-VITE_COGNITO_APP_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
-```
+![Setup Cognito Environment](/images/5-Workshop/5.3-Lab2-Cognito-Auth/2-App-Integration/5.3.2.1.png)
 
-*(Lưu ý: Thay `us-east-1_xxxxxxxxx` và `xxxxxxxxxxxxxxxxxxxxxxxxxx` bằng thông tin thực tế của bạn).*
+*(Lưu ý: Thay thế các giá trị bằng User Pool ID và Client ID thực tế của bạn).*
 
-## Bước 3: Cài đặt và tích hợp AWS Amplify (Tham khảo)
+## Bước 3: Cài đặt và Tích hợp AWS Amplify
 
-*Lưu ý: Mã nguồn Frontend của khoá học có thể đã được cấu hình sẵn phần này. Đây là các bước giải thích nguyên lý hoạt động để bạn nắm rõ.*
-
-Để kết nối với Cognito từ React, dự án sẽ cài đặt thư viện:
+Để kết nối tới Cognito từ React, dự án sẽ cài đặt thư viện sau:
 ```bash
 npm install aws-amplify
 ```
+![Run terminal Cognito](/images/5-Workshop/5.3-Lab2-Cognito-Auth/2-App-Integration/5.3.2.2.png)
 
-Trong file khởi tạo ứng dụng (ví dụ `main.tsx` hoặc `App.tsx`), cấu hình Amplify như sau:
+Trong file đầu vào của ứng dụng (ví dụ: `main.tsx` hoặc `App.tsx`), Amplify được cấu hình như sau:
 
 ```typescript
 import { Amplify } from 'aws-amplify';
@@ -47,15 +42,19 @@ import { Amplify } from 'aws-amplify';
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: import.meta.env.VITE_COGNITO_USER_POOL_ID,
-      userPoolClientId: import.meta.env.VITE_COGNITO_APP_CLIENT_ID,
+      userPoolId: import.meta.env.AWS_COGNITO_USER_POOL_ID,
+      userPoolClientId: import.meta.env.AWS_COGNITO_CLIENT_ID,
       signUpVerificationMethod: 'code',
     }
   }
 });
 ```
 
-Từ đây, mỗi khi người dùng gọi hàm `signIn({ username, password })` của thư viện Amplify, Frontend sẽ tự động gọi API lên AWS Cognito để xác thực và nhận về **JWT Token**.
+*(Hoặc nếu bạn đang sử dụng `react-oidc-context`, cấu hình sẽ trông giống như thế này):*
+
+![Cấu hình React OIDC](/images/5-Workshop/5.3-Lab2-Cognito-Auth/2-App-Integration/5.3.2.3.png)
+
+Từ giờ trở đi, mỗi khi người dùng gọi hàm `signIn({ username, password })` từ thư viện Amplify, Frontend sẽ tự động gọi API lên AWS Cognito để xác thực và nhận về **JWT Token**.
 
 ---
-Việc cấu hình kết nối đã xong. Ở phần tiếp theo, chúng ta sẽ bắt đầu **Kiểm thử luồng Đăng nhập/Đăng ký** trực tiếp trên giao diện!
+Việc cấu hình kết nối đã hoàn tất. Trong phần tiếp theo, chúng ta sẽ **Kiểm thử luồng Đăng nhập/Đăng ký** trực tiếp từ giao diện nhé!
