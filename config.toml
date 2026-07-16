@@ -1,5 +1,5 @@
 baseURL = "https://ntquoc301004.github.io/fcj_workshop_NguyenTuanQuoc/"
-relativeURLs = true
+relativeURLs = false
 canonifyURLs = true
 defaultContentLanguage = "en"
 
