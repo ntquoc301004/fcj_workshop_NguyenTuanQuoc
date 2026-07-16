@@ -1,49 +1,53 @@
----
-title: "3. Kiểm thử Xác thực"
+﻿---
+title: "3. Kiá»ƒm thá»­ XÃ¡c thá»±c"
 weight: 3
 chapter: false
 pre: " <b> 5.3.3. </b> "
 ---
 
 
-Trong phần này, chúng ta sẽ chạy ứng dụng Frontend trên môi trường local (hoặc truy cập qua domain S3/CloudFront) để kiểm tra xem quá trình kết nối với Amazon Cognito đã hoạt động đúng chưa.
+Trong pháº§n nÃ y, chÃºng ta sáº½ cháº¡y á»©ng dá»¥ng Frontend á»Ÿ mÃ´i trÆ°á»ng local (hoáº·c truy cáº­p qua domain S3/CloudFront) Ä‘á»ƒ xÃ¡c minh xem káº¿t ná»‘i Ä‘áº¿n Amazon Cognito Ä‘Ã£ hoáº¡t Ä‘á»™ng chÃ­nh xÃ¡c hay chÆ°a.
 
-## Bước 1: Khởi chạy Frontend
-Nếu bạn đang chạy ứng dụng ở máy local, hãy mở terminal và chạy:
+## BÆ°á»›c 1: Khá»Ÿi cháº¡y Frontend
+Náº¿u báº¡n Ä‘ang cháº¡y á»©ng dá»¥ng á»Ÿ mÃ´i trÆ°á»ng local, hÃ£y má»Ÿ terminal vÃ  thá»±c thi:
 ```bash
 npm run dev
 ```
-Trình duyệt sẽ tự động mở ra ở địa chỉ `http://localhost:5173`. 
-*(Lưu ý: Nếu bạn truy cập qua link của CloudFront ở bài Lab trước, hãy dùng link đó).*
+TrÃ¬nh duyá»‡t sáº½ tá»± Ä‘á»™ng má»Ÿ táº¡i `http://localhost:5173`.
+*(LÆ°u Ã½: Náº¿u báº¡n truy cáº­p qua link CloudFront tá»« bÃ i Lab trÆ°á»›c, hÃ£y sá»­ dá»¥ng link Ä‘Ã³).*
 
-## Bước 2: Tạo tài khoản mới (Sign-up)
-1. Trên giao diện Genzite, nhấn vào nút **Sign Up** (Đăng ký).
-2. Nhập một địa chỉ email hợp lệ của bạn (email bạn có thể nhận được thư) và mật khẩu (nhớ tuân thủ các quy tắc bảo mật: 8 ký tự, có số, chữ hoa, chữ thường).
-3. Nhấn **Create Account**.
+## BÆ°á»›c 2: Táº¡o tÃ i khoáº£n má»›i (Sign-up)
+1. TrÃªn giao diá»‡n Genzite, nháº¥n nÃºt **Sign Up** (ÄÄƒng kÃ½).
+2. Nháº­p má»™t Ä‘á»‹a chá»‰ email há»£p lá»‡ (mÃ  báº¡n cÃ³ thá»ƒ kiá»ƒm tra há»™p thÆ°) vÃ  máº­t kháº©u (Ä‘áº£m báº£o tuÃ¢n thá»§ chÃ­nh sÃ¡ch báº£o máº­t: 8 kÃ½ tá»±, cÃ³ sá»‘, chá»¯ hoa, chá»¯ thÆ°á»ng).
+3. Nháº¥n **Create Account**.
 
-## Bước 3: Xác thực Email (Verification)
-1. Sau khi nhấn tạo tài khoản, giao diện sẽ chuyển sang màn hình **Xác nhận mã OTP**.
-2. Kiểm tra hộp thư đến (Inbox) của email bạn vừa đăng ký. Mở thư có tiêu đề "Your verification code" được gửi từ Cognito.
-3. Nhập mã code gồm 6 chữ số vào ô nhập trên giao diện.
-4. Nhấn **Verify**.
+## BÆ°á»›c 3: XÃ¡c thá»±c Email (Verification)
+1. Sau khi nháº¥n táº¡o tÃ i khoáº£n, giao diá»‡n sáº½ chuyá»ƒn sang mÃ n hÃ¬nh **OTP Verification**.
+2. Kiá»ƒm tra Há»™p thÆ° Ä‘áº¿n (Inbox) cá»§a email báº¡n vá»«a Ä‘Äƒng kÃ½. Má»Ÿ email cÃ³ tiÃªu Ä‘á» "Your verification code" Ä‘Æ°á»£c gá»­i tá»« Cognito.
+3. Nháº­p mÃ£ code gá»“m 6 chá»¯ sá»‘ vÃ o Ã´ nháº­p liá»‡u trÃªn mÃ n hÃ¬nh.
+4. Nháº¥n **Verify**.
 
-## Bước 4: Đăng nhập (Sign-in) và kiểm tra Token
-1. Sau khi xác thực thành công, giao diện sẽ tự động chuyển hướng về trang chủ hoặc màn hình **Sign In**.
-2. Nhập email và mật khẩu bạn vừa đăng ký.
-3. Nhấn **Login**.
-4. **Kiểm tra JWT Token**:
-   - Nhấn chuột phải vào trang web, chọn **Inspect** (Kiểm tra) để mở Developer Tools của trình duyệt.
-   - Chuyển sang tab **Application** (hoặc Storage).
-   - Mở phần **Local Storage**, bạn sẽ thấy các key lưu trữ của Cognito bắt đầu bằng `CognitoIdentityServiceProvider...`.
-   - Nhấn vào key chứa `accessToken` hoặc `idToken`, bạn sẽ thấy một chuỗi ký tự rất dài (đó chính là JWT Token).
+![Test Mail Verify 1](/images/5-Workshop/5.3-Lab2-Cognito-Auth/3-Test-Authentication/5.3.3.1.png)
 
-## Bước 5: Xác minh trên AWS Console
-Để chắc chắn user đã được tạo thành công trên hệ thống:
-1. Quay lại trang quản trị AWS, mở dịch vụ **Cognito**.
-2. Nhấp vào **User pool** `genzite-user-pool`.
-3. Trong tab **Users**, bạn sẽ thấy địa chỉ email vừa tạo với trạng thái **CONFIRMED** (Đã xác nhận).
+## BÆ°á»›c 4: ÄÄƒng nháº­p vÃ  Kiá»ƒm tra Token
+1. Sau khi xÃ¡c thá»±c thÃ nh cÃ´ng, giao diá»‡n sáº½ tá»± Ä‘á»™ng chuyá»ƒn hÆ°á»›ng vá» trang chá»§ hoáº·c mÃ n hÃ¬nh **Sign In**.
+2. Nháº­p email vÃ  máº­t kháº©u báº¡n vá»«a Ä‘Äƒng kÃ½.
+3. Nháº¥n **Login**.
+4. **Kiá»ƒm tra JWT Tokens**:
+   - Click chuá»™t pháº£i trÃªn trang web vÃ  chá»n **Inspect** (Kiá»ƒm tra) Ä‘á»ƒ má»Ÿ Developer Tools cá»§a trÃ¬nh duyá»‡t.
+   - Chuyá»ƒn sang tab **Application** (hoáº·c Storage).
+   - Má»Ÿ má»¥c **Local Storage**, báº¡n sáº½ tháº¥y cÃ¡c key lÆ°u trá»¯ cá»§a Cognito báº¯t Ä‘áº§u báº±ng `CognitoIdentityServiceProvider...`.
+   - Nháº¥n vÃ o key cÃ³ chá»©a `accessToken` hoáº·c `idToken`, báº¡n sáº½ tháº¥y má»™t chuá»—i ráº¥t dÃ i (Ä‘Ã³ chÃ­nh lÃ  JWT Token).
+
+## BÆ°á»›c 5: XÃ¡c minh trÃªn AWS Console
+Äá»ƒ cháº¯c cháº¯n ráº±ng ngÆ°á»i dÃ¹ng Ä‘Ã£ Ä‘Æ°á»£c táº¡o thÃ nh cÃ´ng trÃªn há»‡ thá»‘ng:
+1. Quay láº¡i AWS Management Console vÃ  má»Ÿ dá»‹ch vá»¥ **Cognito**.
+2. Nháº¥n vÃ o `genzite-user-pool`.
+3. Trong tab **Users**, báº¡n sáº½ tháº¥y Ä‘á»‹a chá»‰ email vá»«a táº¡o cÃ³ tráº¡ng thÃ¡i lÃ  **CONFIRMED**.
+
+![Test Account Cognito](/images/5-Workshop/5.3-Lab2-Cognito-Auth/3-Test-Authentication/5.3.3.2.png)
 
 ---
-**Chúc mừng!** Tính năng đăng ký/đăng nhập của ứng dụng đã hoạt động trơn tru. Với JWT token này, người dùng có thể bắt đầu sử dụng các tính năng tạo web bằng AI của hệ thống. 
+**ChÃºc má»«ng!** TÃ­nh nÄƒng Ä‘Äƒng kÃ½/Ä‘Äƒng nháº­p cá»§a á»©ng dá»¥ng Ä‘Ã£ hoáº¡t Ä‘á»™ng trÆ¡n tru. Vá»›i JWT token nÃ y, ngÆ°á»i dÃ¹ng Ä‘Ã£ cÃ³ thá»ƒ báº¯t Ä‘áº§u sá»­ dá»¥ng cÃ¡c tÃ­nh nÄƒng táº¡o website báº±ng AI cá»§a há»‡ thá»‘ng.
 
-Hãy tiếp tục sang **Lab 3** để xây dựng phần "não bộ" của Genzite: **Cơ sở dữ liệu và Backend API**.
+HÃ£y chuyá»ƒn sang **Lab 3** Ä‘á»ƒ xÃ¢y dá»±ng "bá»™ nÃ£o" cá»§a Genzite: **Database vÃ  Backend API**.
