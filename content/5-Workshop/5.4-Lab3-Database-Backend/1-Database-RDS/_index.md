@@ -1,4 +1,4 @@
----
+﻿---
 title: "1. Initialize RDS"
 weight: 1
 chapter: false
@@ -20,17 +20,17 @@ Before creating the RDS instance, we must tell AWS which Subnets the Database is
 4. **Name**: `genzite-subnet-rds`.
 5. **Description**: `genzite-subnet-rds`.
 6. **VPC**: Select `genzite-vpc`.
-![Create Subnet Group](./images/5.4.1.1.png)
+![Create Subnet Group](/images/5-Workshop/5.4-Lab3-Database-Backend/1-Database-RDS/5.4.1.1.png)
 7. Scroll down to the **Add subnets** section:
    - Choose **Availability Zones**: Select `us-east-1a` and `us-east-1b`.
    - Choose **Subnets**: Select 2 **Private Subnets**.
-![Subnet Group](./images/5.4.1.2.png)
+![Subnet Group](/images/5-Workshop/5.4-Lab3-Database-Backend/1-Database-RDS/5.4.1.2.png)
 8. Click **Create**.
-![Create Done](./images/5.4.1.3.png)
+![Create Done](/images/5-Workshop/5.4-Lab3-Database-Backend/1-Database-RDS/5.4.1.3.png)
 ## Step 2: Provision Database Instance
 
 1. From the left menu, select **Databases**, click **Create database** and choose **Full Configuration**.
-![Create RDS](./images/5.4.1.4.png)
+![Create RDS](/images/5-Workshop/5.4-Lab3-Database-Backend/1-Database-RDS/5.4.1.4.png)
 2. **Engine options**: Choose **PostgreSQL** (Version `PostgreSQL 16.14-R2`).
 3. **Templates**: Choose **Sand box**.
 4. **Settings**:
@@ -38,8 +38,8 @@ Before creating the RDS instance, we must tell AWS which Subnets the Database is
    - **Master username**: `genzite_admin`.
    - **Credentials management**: Choose **Self managed**.
    - **Master password**: Enter a strong password and confirm it in the **Confirm master password** box.
-![Credentials](./images/5.4.1.6.png)
-![Authentication](./images/5.4.1.7.png)
+![Credentials](/images/5-Workshop/5.4-Lab3-Database-Backend/1-Database-RDS/5.4.1.6.png)
+![Authentication](/images/5-Workshop/5.4-Lab3-Database-Backend/1-Database-RDS/5.4.1.7.png)
 
 5. **Instance configuration**:
    - Instance type: Choose `db.t3.micro`.
@@ -51,19 +51,19 @@ Before creating the RDS instance, we must tell AWS which Subnets the Database is
 7. **Connectivity**:
    - **Compute resource**: Choose **Don't connect to an EC2 compute resource**.
    - **Network type**: Choose **IPv4**.
-![Storage & Connectivity](./images/5.4.1.8.png)
+![Storage & Connectivity](/images/5-Workshop/5.4-Lab3-Database-Backend/1-Database-RDS/5.4.1.8.png)
    - **Virtual private cloud (VPC)**: Select `genzite-vpc`.
    - **DB Subnet Group**: Select `genzite-subnet-rds`.
    - **Public access**: Choose **No** (The Database must not be accessible from the Internet).
    - **VPC security group (firewall)**: Choose **Choose existing**, remove the `default` tag, and select `genzite-rds-sg` (Created in Lab 1 - Security).
-   ![Public Access](./images/5.4.1.5.png)
+   ![Public Access](/images/5-Workshop/5.4-Lab3-Database-Backend/1-Database-RDS/5.4.1.5.png)
 
 8. **Database authentication**: Choose **Password authentication**.
 9. **Monitoring**:
    - **Database Insights**: Choose **Database Insights - Standard**.
    - **Performance Insights**: Uncheck **Enable Performance Insights**.
    - **Enhanced Monitoring**: Uncheck **Enable Enhanced monitoring**.
-![Monitoring](./images/5.4.1.9.png)
+![Monitoring](/images/5-Workshop/5.4-Lab3-Database-Backend/1-Database-RDS/5.4.1.9.png)
 
 10. Expand the **Additional configuration** section:
     - **Database options**:
@@ -73,7 +73,7 @@ Before creating the RDS instance, we must tell AWS which Subnets the Database is
     - **Backup**:
       - Check **Enable automated backup**.
       - **Backup retention period**: Select `1 day`.
-![Additional configuration](./images/5.4.1.10.png)
+![Additional configuration](/images/5-Workshop/5.4-Lab3-Database-Backend/1-Database-RDS/5.4.1.10.png)
 
 11. Review the information, scroll down to the bottom, and click **Create database**.
 

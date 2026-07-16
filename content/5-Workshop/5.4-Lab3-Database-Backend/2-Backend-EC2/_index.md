@@ -1,4 +1,4 @@
----
+﻿---
 title: "2. Deploy Backend"
 weight: 2
 chapter: false
@@ -29,18 +29,18 @@ Based on our design, the EC2 instance will be placed in a **Private Subnet** to 
    - **Auto-assign public IP**: **Disable**.
    - **Firewall (security groups)**: Choose **Create security group**.
    - **Security group name**: `genzite-sg`.
-![Config EC2](./images/5.4.2.1.png)
+![Config EC2](/images/5-Workshop/5.4-Lab3-Database-Backend/2-Backend-EC2/5.4.2.1.png)
 8. **Configure storage**:
    - Increase the storage from `8` to `30` GiB.
 9. Leave the rest as default. Click **Launch instance**.
-![Config EC2](./images/5.4.2.2.png)
+![Config EC2](/images/5-Workshop/5.4-Lab3-Database-Backend/2-Backend-EC2/5.4.2.2.png)
 ## Step 2: Add IAM Role for EC2
 
 1. Go back to the **EC2** dashboard, select **genzite-backend**, click **Actions**, then **Security** and **Modify IAM role**.
-![Config EC2](./images/5.4.2.3.png)
+![Config EC2](/images/5-Workshop/5.4-Lab3-Database-Backend/2-Backend-EC2/5.4.2.3.png)
 2. Change the IAM role to the **genzite-role** role.
 3. Click **Update IAM role**.
-![Config EC2](./images/5.4.2.4.png)
+![Config EC2](/images/5-Workshop/5.4-Lab3-Database-Backend/2-Backend-EC2/5.4.2.4.png)
 4. Return to the **EC2** page, proceed to **Reboot** the EC2 instance and wait a moment.
 5. You have successfully added permissions for the EC2 instance.
 

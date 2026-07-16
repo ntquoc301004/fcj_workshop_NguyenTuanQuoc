@@ -1,4 +1,4 @@
----
+﻿---
 title: "2. Configure Security"
 weight: 2
 chapter: false
@@ -36,7 +36,7 @@ The Application Load Balancer (ALB) will be the direct gateway facing the intern
    - Add Rule 2: Type `HTTPS`, Source `Anywhere-IPv4` (`0.0.0.0/0`).
 7. **Outbound rules**: Leave the default (Allow All Traffic).
 8. Click **Create security group**.
-![SG ALB](./images/5.2.2.1.png)
+![SG ALB](/images/5-Workshop/5.2-Lab1-Infrastructure-Frontend/2-Security/5.2.2.1.png)
 ## Step 3: Create a Security Group for EC2 (Backend)
 
 The EC2 backend should only receive traffic from the ALB and allow you to SSH into it. It should not be directly accessible from the internet to prevent risks.

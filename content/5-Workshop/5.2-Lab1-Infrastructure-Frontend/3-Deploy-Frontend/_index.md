@@ -1,4 +1,4 @@
----
+﻿---
 title: "3. Frontend Deployment"
 weight: 23
 chapter: false
@@ -73,7 +73,7 @@ To use a custom domain name for your application instead of the default CloudFro
    - Go to the **ACM Console** and request a public certificate for your domain name.
    - *Important note: The certificate for CloudFront must be created in the **us-east-1 (N. Virginia)** region.*
 
-![ACM Configuration](images/acm.png)
+![ACM Configuration](/images/5-Workshop/5.2-Lab1-Infrastructure-Frontend/3-Deploy-Frontend/acm.png)
 
 2. **Update CloudFront**:
    - Open your CloudFront Distribution, go to **Settings** and click Edit.
@@ -83,4 +83,4 @@ To use a custom domain name for your application instead of the default CloudFro
    - Go to **Route 53**, open the Hosted Zone for your domain.
    - Create a new record (Create record), select **A record**, enable the **Alias** toggle, and route traffic to your CloudFront distribution.
 
-![Route 53 Configuration](images/route53.png)
+![Route 53 Configuration](/images/5-Workshop/5.2-Lab1-Infrastructure-Frontend/3-Deploy-Frontend/route53.png)

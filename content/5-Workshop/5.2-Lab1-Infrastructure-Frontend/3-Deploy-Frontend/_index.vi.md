@@ -1,117 +1,117 @@
----
-title: "3. Triển khai Frontend"
+﻿---
+title: "3. Triá»ƒn khai Frontend"
 weight: 23
 chapter: false
 pre: "<b>5.2.3. </b>"
 ---
 
-# 5.2.3 Triển khai Frontend
+# 5.2.3 Triá»ƒn khai Frontend
 
-Đối với các ứng dụng frontend hiện đại (như React, Vue, hoặc Angular SPA), việc triển khai lên **Amazon S3 Bucket** và phân phối qua **Amazon CloudFront** là best practice trong ngành. Nó cung cấp khả năng caching ở edge location toàn cầu, khả năng mở rộng không giới hạn và tính năng chống DDoS tích hợp.
+Äá»‘i vá»›i cÃ¡c á»©ng dá»¥ng frontend hiá»‡n Ä‘áº¡i (nhÆ° React, Vue, hoáº·c Angular SPA), viá»‡c triá»ƒn khai lÃªn **Amazon S3 Bucket** vÃ  phÃ¢n phá»‘i qua **Amazon CloudFront** lÃ  best practice trong ngÃ nh. NÃ³ cung cáº¥p kháº£ nÄƒng caching á»Ÿ edge location toÃ n cáº§u, kháº£ nÄƒng má»Ÿ rá»™ng khÃ´ng giá»›i háº¡n vÃ  tÃ­nh nÄƒng chá»‘ng DDoS tÃ­ch há»£p.
 
 
 
-## Hướng dẫn từng bước
+## HÆ°á»›ng dáº«n tá»«ng bÆ°á»›c
 
 ### 1. Build source code Frontend
-Đầu tiên, hãy build ứng dụng của bạn ở local thành các file tĩnh.
+Äáº§u tiÃªn, hÃ£y build á»©ng dá»¥ng cá»§a báº¡n á»Ÿ local thÃ nh cÃ¡c file tÄ©nh.
 
 ```bash
 cd frontend
 pnpm install
 pnpm run build
 ```
-Quá trình này sẽ sinh ra một thư mục `dist/` hoặc `build/` chứa các file HTML, CSS và JS.
+QuÃ¡ trÃ¬nh nÃ y sáº½ sinh ra má»™t thÆ° má»¥c `dist/` hoáº·c `build/` chá»©a cÃ¡c file HTML, CSS vÃ  JS.
 
-### 2. Tạo S3 Bucket
-1. Truy cập **S3 Console**.
-2. Nhấn **Create bucket**.
-3. **Bucket name**: Chọn một tên duy nhất trên toàn cầu (ví dụ: `workshop-frontend-app-12345`).
-4. **Block Public Access settings**: Để nguyên tùy chọn "Block all public access" (chúng ta sẽ dùng CloudFront OAC để truy cập bảo mật).
-5. Nhấn **Create bucket**.
+### 2. Táº¡o S3 Bucket
+1. Truy cáº­p **S3 Console**.
+2. Nháº¥n **Create bucket**.
+3. **Bucket name**: Chá»n má»™t tÃªn duy nháº¥t trÃªn toÃ n cáº§u (vÃ­ dá»¥: `workshop-frontend-app-12345`).
+4. **Block Public Access settings**: Äá»ƒ nguyÃªn tÃ¹y chá»n "Block all public access" (chÃºng ta sáº½ dÃ¹ng CloudFront OAC Ä‘á»ƒ truy cáº­p báº£o máº­t).
+5. Nháº¥n **Create bucket**.
 
 ![Create Bucket 1](/images/S3_bucket/bucket_fontend/createbucketfontend1.png)
 ![Create Bucket 2](/images/S3_bucket/bucket_fontend/createbucketfontend2.png)
 ![Create Bucket 3](/images/S3_bucket/bucket_fontend/createbucketfontend3.png)
 
-### 3. Upload File lên S3
-1. Nhấn vào bucket vừa tạo.
-2. Nhấn **Upload**.
-3. Upload toàn bộ nội dung *bên trong* thư mục `dist/` hoặc `build/`.
-4. Nhấn **Upload**.
+### 3. Upload File lÃªn S3
+1. Nháº¥n vÃ o bucket vá»«a táº¡o.
+2. Nháº¥n **Upload**.
+3. Upload toÃ n bá»™ ná»™i dung *bÃªn trong* thÆ° má»¥c `dist/` hoáº·c `build/`.
+4. Nháº¥n **Upload**.
 
-### 3b. Tạo S3 Media Bucket
-Trong hệ thống Genzite, Media Bucket dùng để lưu trữ ảnh/video do người dùng tải lên.
-1. Quay lại trang chủ **S3 Console**.
-2. Nhấn **Create bucket**.
-3. **Bucket name**: Đặt tên (ví dụ: `genzite-media-bucket`).
-4. **Object Ownership**: Chọn `ACLs enabled` (nếu muốn dùng public read).
-5. **Block Public Access settings**: Bỏ check "Block all public access" để cho phép người dùng xem ảnh công khai. Xác nhận rủi ro.
-6. Nhấn **Create bucket**.
+### 3b. Táº¡o S3 Media Bucket
+Trong há»‡ thá»‘ng Genzite, Media Bucket dÃ¹ng Ä‘á»ƒ lÆ°u trá»¯ áº£nh/video do ngÆ°á»i dÃ¹ng táº£i lÃªn.
+1. Quay láº¡i trang chá»§ **S3 Console**.
+2. Nháº¥n **Create bucket**.
+3. **Bucket name**: Äáº·t tÃªn (vÃ­ dá»¥: `genzite-media-bucket`).
+4. **Object Ownership**: Chá»n `ACLs enabled` (náº¿u muá»‘n dÃ¹ng public read).
+5. **Block Public Access settings**: Bá» check "Block all public access" Ä‘á»ƒ cho phÃ©p ngÆ°á»i dÃ¹ng xem áº£nh cÃ´ng khai. XÃ¡c nháº­n rá»§i ro.
+6. Nháº¥n **Create bucket**.
 
 ![Create Media Bucket 1](/images/S3_bucket/bucket_media/createbucketmedia1.png)
 ![Create Media Bucket 2](/images/S3_bucket/bucket_media/createbucketmedia2.png)
 ![Create Media Bucket 3](/images/S3_bucket/bucket_media/createbucketmedia3.png)
 
-Cấu hình CORS cho Media Bucket:
-1. Mở Media Bucket > Tab **Permissions**.
-2. Cuộn xuống phần **Cross-origin resource sharing (CORS)**, nhấn Edit.
-3. Dán đoạn JSON cấu hình CORS sau đây (cho phép GET, PUT, POST) và lưu lại:
+Cáº¥u hÃ¬nh CORS cho Media Bucket:
+1. Má»Ÿ Media Bucket > Tab **Permissions**.
+2. Cuá»™n xuá»‘ng pháº§n **Cross-origin resource sharing (CORS)**, nháº¥n Edit.
+3. DÃ¡n Ä‘oáº¡n JSON cáº¥u hÃ¬nh CORS sau Ä‘Ã¢y (cho phÃ©p GET, PUT, POST) vÃ  lÆ°u láº¡i:
 
 
 ![Setup CORS Media](/images/S3_bucket/bucket_media/setupCORSmedia.png)
 
-Cấu hình Bucket Policy để cho phép đọc công khai (Public Read):
-1. Vẫn ở tab **Permissions**, cuộn lên **Bucket policy**, nhấn Edit.
-2. Dán policy sau đây để cho phép hành động `s3:GetObject` từ mọi nguồn `*`. (Lưu ý: Nhớ thay `YOUR_BUCKET_NAME` bằng tên thật bucket của bạn):
+Cáº¥u hÃ¬nh Bucket Policy Ä‘á»ƒ cho phÃ©p Ä‘á»c cÃ´ng khai (Public Read):
+1. Váº«n á»Ÿ tab **Permissions**, cuá»™n lÃªn **Bucket policy**, nháº¥n Edit.
+2. DÃ¡n policy sau Ä‘Ã¢y Ä‘á»ƒ cho phÃ©p hÃ nh Ä‘á»™ng `s3:GetObject` tá»« má»i nguá»“n `*`. (LÆ°u Ã½: Nhá»› thay `YOUR_BUCKET_NAME` báº±ng tÃªn tháº­t bucket cá»§a báº¡n):
 
 
 ![Setup Bucket Policy Media](/images/S3_bucket/bucket_media/setupbucketpolicymedia.png)
 
 ![Test Media](/images/S3_bucket/bucket_media/test_media_db.png)
 
-### 4. Tạo CloudFront Distribution
-1. Truy cập **CloudFront Console**.
-2. Nhấn **Create Distribution**.
-3. **Origin domain**: Chọn S3 bucket của bạn.
-4. **Origin access**: Chọn **Origin access control settings (recommended)**.
-   - Nhấn **Create control setting** và lưu lại.
+### 4. Táº¡o CloudFront Distribution
+1. Truy cáº­p **CloudFront Console**.
+2. Nháº¥n **Create Distribution**.
+3. **Origin domain**: Chá»n S3 bucket cá»§a báº¡n.
+4. **Origin access**: Chá»n **Origin access control settings (recommended)**.
+   - Nháº¥n **Create control setting** vÃ  lÆ°u láº¡i.
 5. **Default cache behavior**:
-   - **Viewer protocol policy**: Chọn Redirect HTTP to HTTPS.
-6. **Web Application Firewall (WAF)**: Chọn "Do not enable security protections" (để tiết kiệm chi phí).
-7. **Default root object**: Nhập `index.html`.
-8. Nhấn **Create distribution**.
+   - **Viewer protocol policy**: Chá»n Redirect HTTP to HTTPS.
+6. **Web Application Firewall (WAF)**: Chá»n "Do not enable security protections" (Ä‘á»ƒ tiáº¿t kiá»‡m chi phÃ­).
+7. **Default root object**: Nháº­p `index.html`.
+8. Nháº¥n **Create distribution**.
 
-### 5. Cập nhật S3 Bucket Policy
-CloudFront sẽ tự động sinh ra một đoạn policy cho S3 bucket để cấp quyền đọc. 
-1. Tại giao diện phân phối CloudFront, sau khi tạo xong, bạn sẽ thấy thông báo cập nhật policy, hãy nhấn **Copy policy**.
-2. Quay lại S3 bucket (Frontend) của bạn > tab **Permissions**.
-3. Chỉnh sửa **Bucket policy**, dán đoạn JSON vào và lưu lại. Đoạn policy đó sẽ có cấu trúc như sau (chỉ cho phép CloudFront đọc dữ liệu):
+### 5. Cáº­p nháº­t S3 Bucket Policy
+CloudFront sáº½ tá»± Ä‘á»™ng sinh ra má»™t Ä‘oáº¡n policy cho S3 bucket Ä‘á»ƒ cáº¥p quyá»n Ä‘á»c. 
+1. Táº¡i giao diá»‡n phÃ¢n phá»‘i CloudFront, sau khi táº¡o xong, báº¡n sáº½ tháº¥y thÃ´ng bÃ¡o cáº­p nháº­t policy, hÃ£y nháº¥n **Copy policy**.
+2. Quay láº¡i S3 bucket (Frontend) cá»§a báº¡n > tab **Permissions**.
+3. Chá»‰nh sá»­a **Bucket policy**, dÃ¡n Ä‘oáº¡n JSON vÃ o vÃ  lÆ°u láº¡i. Äoáº¡n policy Ä‘Ã³ sáº½ cÃ³ cáº¥u trÃºc nhÆ° sau (chá»‰ cho phÃ©p CloudFront Ä‘á»c dá»¯ liá»‡u):
 
 
 ![Setup Bucket Policy Frontend](/images/S3_bucket/bucket_fontend/setupbucketpolicyfontend.png)
 
-### 6. Kiểm tra ứng dụng Frontend
-Khi CloudFront distribution chuyển trạng thái Deploy hoàn tất, hãy copy **Distribution domain name** (ví dụ: `d12345.cloudfront.net`) và dán vào trình duyệt. Ứng dụng frontend của bạn đã hoạt động!
+### 6. Kiá»ƒm tra á»©ng dá»¥ng Frontend
+Khi CloudFront distribution chuyá»ƒn tráº¡ng thÃ¡i Deploy hoÃ n táº¥t, hÃ£y copy **Distribution domain name** (vÃ­ dá»¥: `d12345.cloudfront.net`) vÃ  dÃ¡n vÃ o trÃ¬nh duyá»‡t. á»¨ng dá»¥ng frontend cá»§a báº¡n Ä‘Ã£ hoáº¡t Ä‘á»™ng!
 
 ![Test Frontend](/images/S3_bucket/bucket_fontend/test_fontend_db.png)
 
-### 7. Cấu hình Custom Domain với Route 53 và ACM (Tùy chọn)
+### 7. Cáº¥u hÃ¬nh Custom Domain vá»›i Route 53 vÃ  ACM (TÃ¹y chá»n)
 
-Để sử dụng tên miền riêng (Custom Domain) cho ứng dụng thay vì domain mặc định của CloudFront, bạn cần cấu hình chứng chỉ bảo mật bằng **AWS Certificate Manager (ACM)** và trỏ bản ghi DNS bằng **Amazon Route 53**.
+Äá»ƒ sá»­ dá»¥ng tÃªn miá»n riÃªng (Custom Domain) cho á»©ng dá»¥ng thay vÃ¬ domain máº·c Ä‘á»‹nh cá»§a CloudFront, báº¡n cáº§n cáº¥u hÃ¬nh chá»©ng chá»‰ báº£o máº­t báº±ng **AWS Certificate Manager (ACM)** vÃ  trá» báº£n ghi DNS báº±ng **Amazon Route 53**.
 
-1. **Xin cấp chứng chỉ ACM**: 
-   - Truy cập giao diện **ACM Console** và yêu cầu cấp chứng chỉ public (Request public certificate) cho tên miền của bạn.
-   - *Lưu ý quan trọng: Chứng chỉ dùng cho CloudFront bắt buộc phải được tạo ở Region **us-east-1 (N. Virginia)**.*
+1. **Xin cáº¥p chá»©ng chá»‰ ACM**: 
+   - Truy cáº­p giao diá»‡n **ACM Console** vÃ  yÃªu cáº§u cáº¥p chá»©ng chá»‰ public (Request public certificate) cho tÃªn miá»n cá»§a báº¡n.
+   - *LÆ°u Ã½ quan trá»ng: Chá»©ng chá»‰ dÃ¹ng cho CloudFront báº¯t buá»™c pháº£i Ä‘Æ°á»£c táº¡o á»Ÿ Region **us-east-1 (N. Virginia)**.*
 
-![Cấu hình ACM](images/acm.png)
+![Cáº¥u hÃ¬nh ACM](/images/5-Workshop/5.2-Lab1-Infrastructure-Frontend/3-Deploy-Frontend/acm.png)
 
-2. **Cập nhật CloudFront**: 
-   - Mở CloudFront Distribution của bạn, phần **Settings** chọn Edit. 
-   - Thêm tên miền của bạn vào **Alternate domain name (CNAME)** và chọn Custom SSL certificate mà bạn vừa tạo ở ACM.
+2. **Cáº­p nháº­t CloudFront**: 
+   - Má»Ÿ CloudFront Distribution cá»§a báº¡n, pháº§n **Settings** chá»n Edit. 
+   - ThÃªm tÃªn miá»n cá»§a báº¡n vÃ o **Alternate domain name (CNAME)** vÃ  chá»n Custom SSL certificate mÃ  báº¡n vá»«a táº¡o á»Ÿ ACM.
 
-3. **Tạo bản ghi Route 53**: 
-   - Truy cập **Route 53**, mở Hosted Zone của tên miền. 
-   - Tạo một bản ghi mới (Create record), loại **A record**, bật công tắc **Alias** và trỏ (Route traffic to) tới CloudFront distribution của bạn.
+3. **Táº¡o báº£n ghi Route 53**: 
+   - Truy cáº­p **Route 53**, má»Ÿ Hosted Zone cá»§a tÃªn miá»n. 
+   - Táº¡o má»™t báº£n ghi má»›i (Create record), loáº¡i **A record**, báº­t cÃ´ng táº¯c **Alias** vÃ  trá» (Route traffic to) tá»›i CloudFront distribution cá»§a báº¡n.
 
-![Cấu hình Route 53](images/route53.png)
+![Cáº¥u hÃ¬nh Route 53](/images/5-Workshop/5.2-Lab1-Infrastructure-Frontend/3-Deploy-Frontend/route53.png)

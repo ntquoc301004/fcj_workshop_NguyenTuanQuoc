@@ -1,4 +1,4 @@
----
+﻿---
 title: "3. Configure Load Balancer"
 weight: 3
 chapter: false
@@ -19,12 +19,12 @@ A Target Group is a logical group containing the servers (EC2 instances) that th
 2. Click **Create target group**.
 3. **Choose a target type**: Select **Instances**.
 4. **Target group name**: `genzite-backend-tg`.
-![Config Target group](./images/5.4.3.1.png)
+![Config Target group](/images/5-Workshop/5.4-Lab3-Database-Backend/3-Load-Balancer/5.4.3.1.png)
 5. **Protocol**: `HTTP`. **Port**: `3000` (The port where the Backend API is running).
 6. **VPC**: Select `genzite-vpc`.
 7. **Health checks**: Leave the defaults (Protocol: HTTP, Path: `/`).
    *(Note: Ensure your API has a route that returns a 200 status code at the root path `/` for the health check to pass).*
-![Config Target group](./images/5.4.3.2.png)
+![Config Target group](/images/5-Workshop/5.4-Lab3-Database-Backend/3-Load-Balancer/5.4.3.2.png)
 8. Click **Next**.
 9. On the **Register targets** screen, select your `genzite-backend` instance from the list below.
 10. Change the port to `3000` and click **Include as pending below**.
@@ -49,17 +49,17 @@ A Target Group is a logical group containing the servers (EC2 instances) that th
 3. Choose **Application Load Balancer** and click **Create**.
 4. **Load balancer name**: `genzite-alb`.
 5. **Scheme**: Select **Internet-facing**.
-![Config Target group](./images/5.4.3.5.png)
+![Config Target group](/images/5-Workshop/5.4-Lab3-Database-Backend/3-Load-Balancer/5.4.3.5.png)
 6. **Network mapping**:
    - **VPC**: Select `genzite-vpc`.
    - **Mappings**: Select 2 **Availability Zones** and correspondingly select 2 **Public Subnets**.
-![Config Target group](./images/5.4.3.6.png)
+![Config Target group](/images/5-Workshop/5.4-Lab3-Database-Backend/3-Load-Balancer/5.4.3.6.png)
 7. **Security groups**:
    - Select `genzite-alb-sg`. (Ensure it has inbound rules allowing HTTP/HTTPS).
 8. **Listeners and routing**:
    - **Protocol**: `HTTP`. **Port**: `80`.
    - **Default action**: Select Target group `frontend-tg` (to route to Frontend).
-   ![Config Target group](./images/5.4.3.7.png)
+   ![Config Target group](/images/5-Workshop/5.4-Lab3-Database-Backend/3-Load-Balancer/5.4.3.7.png)
 9. Leave the remaining settings as default and click **Create load balancer**.
 
 ## Step 3: Configure API Routing Rule
@@ -73,7 +73,7 @@ To route requests starting with `/api/*` to the Backend instead of the Frontend,
 5. Scroll down to the **Actions** section, choose **Forward to**, and select the `genzite-backend-tg` Target Group.
 6. Under **Rule priority**, set the Priority to `1`.
 7. Click **Add rule** to save.
-   ![Config Target group](./images/5.4.3.8.png)
+   ![Config Target group](/images/5-Workshop/5.4-Lab3-Database-Backend/3-Load-Balancer/5.4.3.8.png)
 
 Once created successfully, your ALB is ready to route UI traffic to the Frontend, and data traffic to the Backend!
 

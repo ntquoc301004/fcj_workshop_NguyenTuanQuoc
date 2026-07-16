@@ -1,4 +1,4 @@
----
+﻿---
 title: "1. Configure VPC"
 weight: 1
 chapter: false
@@ -26,7 +26,7 @@ In this section, we will create and configure the Virtual Private Cloud (VPC) fo
    - **Name tag auto-generation**: Enter `genzite`.
    - **IPv4 CIDR block**: `10.0.0.0/16`.
 
-![Create VPC Step 1](./images/create-vpc-step1.png)
+![Create VPC Step 1](/images/5-Workshop/5.2-Lab1-Infrastructure-Frontend/1-VPC/create-vpc-step1.png)
 
    - **Number of Availability Zones (AZs)**: `2`.
    - **Number of public subnets**: `2`.
@@ -35,7 +35,7 @@ In this section, we will create and configure the Virtual Private Cloud (VPC) fo
    - **VPC endpoints**: Select **S3 Gateway**.
    - **DNS options**: Ensure both **Enable DNS hostnames** and **Enable DNS resolution** are checked.
 
-![Create VPC Step 2](./images/create-vpc-step2.png)
+![Create VPC Step 2](/images/5-Workshop/5.2-Lab1-Infrastructure-Frontend/1-VPC/create-vpc-step2.png)
 
 6. Review the configuration in the preview pane on the right and click **Create VPC**.
 
@@ -51,7 +51,7 @@ If you chose **None** for NAT gateways during VPC creation (to save initial cost
    - **Connectivity type**: `Public`
    - **Elastic IP allocation ID**: Click the **Allocate Elastic IP** button
 
-![Create NAT Gateway](./images/create-nat-gw.png)
+![Create NAT Gateway](/images/5-Workshop/5.2-Lab1-Infrastructure-Frontend/1-VPC/create-nat-gw.png)
 
 4. Click **Create NAT gateway** and wait a few minutes for the status to change to **Available**.
 *(Note: If created manually, you must go to your Private Subnet's Route Table and add a route for `0.0.0.0/0` pointing to the newly created NAT Gateway).*
