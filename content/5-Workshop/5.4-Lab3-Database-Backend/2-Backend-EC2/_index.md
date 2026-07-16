@@ -1,4 +1,4 @@
-﻿---
+---
 title: "2. Deploy Backend"
 weight: 2
 chapter: false

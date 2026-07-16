@@ -1,4 +1,4 @@
-﻿---
+---
 title: "1. Initialize RDS"
 weight: 1
 chapter: false

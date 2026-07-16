@@ -1,4 +1,4 @@
-﻿---
+---
 title: "3. Configure Load Balancer"
 weight: 3
 chapter: false

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "3. Frontend Deployment"
 weight: 23
 chapter: false

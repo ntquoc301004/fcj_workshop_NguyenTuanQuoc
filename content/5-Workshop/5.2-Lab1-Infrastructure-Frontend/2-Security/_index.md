@@ -1,4 +1,4 @@
-﻿---
+---
 title: "2. Configure Security"
 weight: 2
 chapter: false

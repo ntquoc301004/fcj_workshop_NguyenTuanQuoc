@@ -1,71 +1,71 @@
-﻿---
-title: "2. Triá»ƒn khai Backend"
+---
+title: "2. Triển khai Backend"
 weight: 2
 chapter: false
 pre: " <b> 5.4.2. </b> "
 ---
 
 
-Äá»ƒ á»©ng dá»¥ng Genzite xá»­ lÃ½ cÃ¡c request phá»©c táº¡p (sinh JSON tá»« prompt, giao tiáº¿p vá»›i Database), chÃºng ta cáº§n má»™t mÃ¡y chá»§ áº£o (Virtual Machine). Trong AWS, Ä‘Ã³ lÃ  dá»‹ch vá»¥ **Amazon Elastic Compute Cloud (EC2)**.
+Để ứng dụng Genzite xử lý các request phức tạp (sinh JSON từ prompt, giao tiếp với Database), chúng ta cần một máy chủ ảo (Virtual Machine). Trong AWS, đó là dịch vụ **Amazon Elastic Compute Cloud (EC2)**.
 
-Dá»±a theo thiáº¿t káº¿, EC2 sáº½ Ä‘Æ°á»£c Ä‘áº·t trong **Private Subnet** Ä‘á»ƒ áº©n khá»i internet, vÃ  chá»‰ cho phÃ©p lÆ°u lÆ°á»£ng truy cáº­p Ä‘i qua Application Load Balancer (ALB).
+Dựa theo thiết kế, EC2 sẽ được đặt trong **Private Subnet** để ẩn khỏi internet, và chỉ cho phép lưu lượng truy cập đi qua Application Load Balancer (ALB).
 
-## BÆ°á»›c 1: Khá»Ÿi táº¡o EC2 Instance
+## Bước 1: Khởi tạo EC2 Instance
 
-1. Má»Ÿ dá»‹ch vá»¥ **EC2** trÃªn AWS Console.
-2. Nháº¥n **Launch instances**.
-3. **Name**: Nháº­p `genzite-backend`.
+1. Mở dịch vụ **EC2** trên AWS Console.
+2. Nhấn **Launch instances**.
+3. **Name**: Nhập `genzite-backend`.
 4. **Application and OS Images (Amazon Machine Image)**:
-   - Chá»n **Ubuntu**.
-   - Chá»n **Ubuntu Server 24.04 LTS**.
+   - Chọn **Ubuntu**.
+   - Chọn **Ubuntu Server 24.04 LTS**.
 5. **Instance type**:
-   - Chá»n `t3a.large`.
+   - Chọn `t3a.large`.
 6. **Key pair (login)**:
-   - Chá»n **Create new key pair** vá»›i tÃªn `genzite-key`.
+   - Chọn **Create new key pair** với tên `genzite-key`.
 7. **Network settings**:
-   - Nháº¥n **Edit**.
-   - **VPC**: Chá»n `genzite-vpc`.
-   - **Subnet**: Chá»n má»™t **Private Subnet**.
+   - Nhấn **Edit**.
+   - **VPC**: Chọn `genzite-vpc`.
+   - **Subnet**: Chọn một **Private Subnet**.
    - **Auto-assign public IP**: **Disable**.
-   - **Firewall (security groups)**: Chá»n **Create security group**.
+   - **Firewall (security groups)**: Chọn **Create security group**.
    - **Security group name**: `genzite-sg`.
 ![Config EC2](/images/5-Workshop/5.4-Lab3-Database-Backend/2-Backend-EC2/5.4.2.1.png)
 8. **Configure storage**:
-   - TÄƒng dung lÆ°á»£ng tá»« `8` lÃªn `30` GiB.
-9. CÃ¡c pháº§n cÃ²n láº¡i giá»¯ nguyÃªn. Nháº¥n **Launch instance**.
+   - Tăng dung lượng từ `8` lên `30` GiB.
+9. Các phần còn lại giữ nguyên. Nhấn **Launch instance**.
 ![Config EC2](/images/5-Workshop/5.4-Lab3-Database-Backend/2-Backend-EC2/5.4.2.2.png)
-## BÆ°á»›c 2: ThÃªm IAM Role cho EC2
+## Bước 2: Thêm IAM Role cho EC2
 
-1. Quay vá» trang chá»§ **EC2** chá»n **genzite-backend**, chá»n **Actions**,chá»n **Sercurity** rá»“i **Modify IAM role**.
+1. Quay về trang chủ **EC2** chọn **genzite-backend**, chọn **Actions**,chọn **Sercurity** rồi **Modify IAM role**.
 ![Config EC2](/images/5-Workshop/5.4-Lab3-Database-Backend/2-Backend-EC2/5.4.2.3.png)
-2. Thay Ä‘á»•i IAM role thÃ nh role **genzite-role**.
-3. Nháº¥n **Update IAM role**.
+2. Thay đổi IAM role thành role **genzite-role**.
+3. Nhấn **Update IAM role**.
 ![Config EC2](/images/5-Workshop/5.4-Lab3-Database-Backend/2-Backend-EC2/5.4.2.4.png)
-4. Quay láº¡i trang **EC2**, Tiáº¿n hÃ nh **Reboot** láº¡i EC2 vÃ  Ä‘á»£i trong giÃ¢y lÃ¡t.
-5. NhÆ° váº­y lÃ  Ä‘Ã£ thÃªm quyá»n xong cho EC2.
+4. Quay lại trang **EC2**, Tiến hành **Reboot** lại EC2 và đợi trong giây lát.
+5. Như vậy là đã thêm quyền xong cho EC2.
 
 
-## BÆ°á»›c 3: Káº¿t ná»‘i vÃ  CÃ i Ä‘áº·t MÃ´i trÆ°á»ng (Docker, Node.js)
+## Bước 3: Kết nối và Cài đặt Môi trường (Docker, Node.js)
 
-1. Sau khi reboot, chá»n láº¡i EC2 vÃ  nháº¥n **Connect**.
-2. Chuyá»ƒn qua tab **Session Manager** vÃ  kÃ©o xuá»‘ng chá»n **Connect**.
-3. Trong terminal, test thá»­ vá»›i lá»‡nh `whoami` (náº¿u tráº£ vá» `ssm-user` lÃ  chÃ­nh xÃ¡c).
-4. Tiáº¿n hÃ nh cháº¡y cÃ¡c lá»‡nh sau Ä‘á»ƒ cáº­p nháº­t há»‡ thá»‘ng vÃ  cÃ i Ä‘áº·t mÃ´i trÆ°á»ng:
+1. Sau khi reboot, chọn lại EC2 và nhấn **Connect**.
+2. Chuyển qua tab **Session Manager** và kéo xuống chọn **Connect**.
+3. Trong terminal, test thử với lệnh `whoami` (nếu trả về `ssm-user` là chính xác).
+4. Tiến hành chạy các lệnh sau để cập nhật hệ thống và cài đặt môi trường:
 
 ```bash
 sudo apt update
 sudo apt update && sudo apt upgrade -y
 
-# CÃ i Ä‘áº·t Docker
+# Cài đặt Docker
 sudo apt install -y docker.io
 docker --version
 sudo systemctl enable docker
 sudo systemctl start docker
 sudo systemctl status docker
 ```
-*(Nháº¥n `Ctrl + C` Ä‘á»ƒ thoÃ¡t khá»i mÃ n hÃ¬nh status cá»§a Docker)*
+*(Nhấn `Ctrl + C` để thoát khỏi màn hình status của Docker)*
 
-Tiáº¿p tá»¥c cÃ i Ä‘áº·t Docker Compose vÃ  Git:
+Tiếp tục cài đặt Docker Compose và Git:
 ```bash
 sudo apt install -y docker-compose-v2
 docker compose version
@@ -74,37 +74,37 @@ sudo apt install -y git
 git --version
 ```
 
-## BÆ°á»›c 4: Táº£i Source Code vÃ  Cháº¡y á»¨ng Dá»¥ng
+## Bước 4: Tải Source Code và Chạy Ứng Dụng
 
-Chuyá»ƒn sang quyá»n root Ä‘á»ƒ táº£i code vÃ  cháº¡y dá»± Ã¡n:
+Chuyển sang quyền root để tải code và chạy dự án:
 ```bash
 sudo -i
 git clone https://github.com/KrisCTer/Genzite
 cd Genzite
 
-# CÃ i Ä‘áº·t Node.js 22.x
+# Cài đặt Node.js 22.x
 curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 sudo apt install -y nodejs
 node -v
 npm -v
 
-# CÃ i Ä‘áº·t pnpm
+# Cài đặt pnpm
 sudo npm install -g pnpm
 pnpm install
 pnpm run build:packages
 
-# Cáº¥u hÃ¬nh biáº¿n mÃ´i trÆ°á»ng
+# Cấu hình biến môi trường
 cd infra
 cp .env.example .env
 
-# Khá»Ÿi cháº¡y cÃ¡c dá»‹ch vá»¥ háº¡ táº§ng vá»›i Docker Compose
+# Khởi chạy các dịch vụ hạ tầng với Docker Compose
 docker compose up -d db cache zookeeper kafka
 cd ..
 
 # Migrate database
 pnpm run prisma:migrate
 
-# Khá»Ÿi cháº¡y cÃ¡c microservices cá»§a dá»± Ã¡n (cháº¡y ngáº§m vá»›i nohup)
+# Khởi chạy các microservices của dự án (chạy ngầm với nohup)
 nohup pnpm run dev:gateway > gateway.log 2>&1 &
 nohup pnpm run dev:ai > ai.log 2>&1 &
 nohup pnpm run dev:data > data.log 2>&1 &

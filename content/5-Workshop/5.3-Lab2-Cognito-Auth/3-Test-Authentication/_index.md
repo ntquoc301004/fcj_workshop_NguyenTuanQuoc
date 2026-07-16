@@ -1,4 +1,4 @@
-﻿---
+---
 title: "3. Test Authentication"
 weight: 3
 chapter: false
@@ -27,8 +27,6 @@ The browser will automatically open at `http://localhost:5173`.
 3. Enter the 6-digit code into the input field on the screen.
 4. Click **Verify**.
 
-![Test Mail Verify 1](/images/5-Workshop/5.3-Lab2-Cognito-Auth/3-Test-Authentication/5.3.3.1.png)
-
 ## Step 4: Sign-in and Check Tokens
 1. After successful verification, the UI will automatically redirect to the home page or the **Sign In** screen.
 2. Enter the email and password you just registered.
@@ -44,8 +42,6 @@ To ensure the user was successfully created on the system:
 1. Go back to the AWS Management Console and open the **Cognito** service.
 2. Click on the `genzite-user-pool`.
 3. In the **Users** tab, you will see the email address you just created with the status **CONFIRMED**.
-
-![Test Account Cognito](/images/5-Workshop/5.3-Lab2-Cognito-Auth/3-Test-Authentication/5.3.3.2.png)
 
 ---
 **Congratulations!** The sign-up/sign-in features of your application are running smoothly. With this JWT token, users can start utilizing the system's AI website generation capabilities.

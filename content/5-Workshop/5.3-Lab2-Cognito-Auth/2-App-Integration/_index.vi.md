@@ -1,40 +1,45 @@
-﻿---
-title: "2. TÃ­ch há»£p á»¨ng dá»¥ng"
+---
+title: "2. Tích hợp Ứng dụng"
 weight: 2
 chapter: false
 pre: " <b> 5.3.2. </b> "
 ---
 
 
-Sau khi User Pool Ä‘Ã£ sáºµn sÃ ng, bÆ°á»›c tiáº¿p theo lÃ  láº¥y cÃ¡c thÃ´ng sá»‘ káº¿t ná»‘i Ä‘á»ƒ Ä‘Æ°a vÃ o mÃ£ nguá»“n Frontend (React). AWS cung cáº¥p thÆ° viá»‡n `aws-amplify` giÃºp viá»‡c gá»i cÃ¡c hÃ m xÃ¡c thá»±c (Ä‘Äƒng kÃ½/Ä‘Äƒng nháº­p) trá»Ÿ nÃªn vÃ´ cÃ¹ng Ä‘Æ¡n giáº£n.
+Sau khi có User Pool, bước tiếp theo là lấy các tham số kết nối để đưa vào mã nguồn Frontend (React). AWS cung cấp thư viện `aws-amplify` giúp việc gọi các hàm đăng nhập/đăng ký vô cùng đơn giản.
 
-## BÆ°á»›c 1: Láº¥y User Pool ID vÃ  Client ID
+## Bước 1: Lấy thông tin User Pool ID và Client ID
 
-1. Trong console cá»§a **Cognito**, nháº¥n vÃ o `genzite-user-pool` báº¡n vá»«a táº¡o.
-2. Copy **User pool ID** (cÃ³ dáº¡ng `us-east-1_xxxxxxxxx`) vÃ  lÆ°u ra má»™t file text táº¡m.
-3. Chuyá»ƒn sang tab **App integration**.
-4. KÃ©o xuá»‘ng má»¥c **App client list**, báº¡n sáº½ tháº¥y `genzite-web-app`.
-5. Copy **Client ID** (má»™t chuá»—i gá»“m chá»¯ vÃ  sá»‘ khoáº£ng 26 kÃ½ tá»±) vÃ  lÆ°u láº¡i.
+1. Tại giao diện **Cognito**, click vào User Pool `genzite-user-pool` bạn vừa tạo.
+2. Sao chép **User pool ID** (có dạng `us-east-1_xxxxxxxxx`) và lưu vào một file text tạm thời.
+3. Chuyển sang tab **App integration**.
+4. Kéo xuống phần **App client list**, bạn sẽ thấy `genzite-react-client`.
+5. Sao chép **Client ID** (một chuỗi khoảng 26 ký tự) và lưu lại.
 
-## BÆ°á»›c 2: Cáº¥u hÃ¬nh biáº¿n mÃ´i trÆ°á»ng á»Ÿ Frontend
+## Bước 2: Cấu hình biến môi trường trên Frontend
 
-Trong thÆ° má»¥c mÃ£ nguá»“n Frontend cá»§a Genzite, tÃ¬m file `.env` (táº¡o file `.env` má»›i á»Ÿ thÆ° má»¥c gá»‘c cá»§a project náº¿u chÆ°a cÃ³).
+Trong thư mục source code Frontend của Genzite, tìm file `.env` (nếu chưa có thì tạo mới file `.env` ở thư mục gốc của project Frontend).
 
-DÃ¡n cÃ¡c thÃ´ng tin vá»«a láº¥y Ä‘Æ°á»£c vÃ o file nÃ y:
+Dán các thông tin bạn vừa lấy được vào file này:
 
-![Setup Cognito Environment](/images/5-Workshop/5.3-Lab2-Cognito-Auth/2-App-Integration/5.3.2.1.png)
+```env
+VITE_AWS_REGION=us-east-1
+VITE_COGNITO_USER_POOL_ID=us-east-1_xxxxxxxxx
+VITE_COGNITO_APP_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxxxx
+```
 
-*(LÆ°u Ã½: Thay tháº¿ cÃ¡c giÃ¡ trá»‹ báº±ng User Pool ID vÃ  Client ID thá»±c táº¿ cá»§a báº¡n).*
+*(Lưu ý: Thay `us-east-1_xxxxxxxxx` và `xxxxxxxxxxxxxxxxxxxxxxxxxx` bằng thông tin thực tế của bạn).*
 
-## BÆ°á»›c 3: CÃ i Ä‘áº·t vÃ  TÃ­ch há»£p AWS Amplify
+## Bước 3: Cài đặt và tích hợp AWS Amplify (Tham khảo)
 
-Äá»ƒ káº¿t ná»‘i tá»›i Cognito tá»« React, dá»± Ã¡n sáº½ cÃ i Ä‘áº·t thÆ° viá»‡n sau:
+*Lưu ý: Mã nguồn Frontend của khoá học có thể đã được cấu hình sẵn phần này. Đây là các bước giải thích nguyên lý hoạt động để bạn nắm rõ.*
+
+Để kết nối với Cognito từ React, dự án sẽ cài đặt thư viện:
 ```bash
 npm install aws-amplify
 ```
-![Run terminal Cognito](/images/5-Workshop/5.3-Lab2-Cognito-Auth/2-App-Integration/5.3.2.2.png)
 
-Trong file Ä‘áº§u vÃ o cá»§a á»©ng dá»¥ng (vÃ­ dá»¥: `main.tsx` hoáº·c `App.tsx`), Amplify Ä‘Æ°á»£c cáº¥u hÃ¬nh nhÆ° sau:
+Trong file khởi tạo ứng dụng (ví dụ `main.tsx` hoặc `App.tsx`), cấu hình Amplify như sau:
 
 ```typescript
 import { Amplify } from 'aws-amplify';
@@ -42,19 +47,15 @@ import { Amplify } from 'aws-amplify';
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: import.meta.env.AWS_COGNITO_USER_POOL_ID,
-      userPoolClientId: import.meta.env.AWS_COGNITO_CLIENT_ID,
+      userPoolId: import.meta.env.VITE_COGNITO_USER_POOL_ID,
+      userPoolClientId: import.meta.env.VITE_COGNITO_APP_CLIENT_ID,
       signUpVerificationMethod: 'code',
     }
   }
 });
 ```
 
-*(Hoáº·c náº¿u báº¡n Ä‘ang sá»­ dá»¥ng `react-oidc-context`, cáº¥u hÃ¬nh sáº½ trÃ´ng giá»‘ng nhÆ° tháº¿ nÃ y):*
-
-![Cáº¥u hÃ¬nh React OIDC](/images/5-Workshop/5.3-Lab2-Cognito-Auth/2-App-Integration/5.3.2.3.png)
-
-Tá»« giá» trá»Ÿ Ä‘i, má»—i khi ngÆ°á»i dÃ¹ng gá»i hÃ m `signIn({ username, password })` tá»« thÆ° viá»‡n Amplify, Frontend sáº½ tá»± Ä‘á»™ng gá»i API lÃªn AWS Cognito Ä‘á»ƒ xÃ¡c thá»±c vÃ  nháº­n vá» **JWT Token**.
+Từ đây, mỗi khi người dùng gọi hàm `signIn({ username, password })` của thư viện Amplify, Frontend sẽ tự động gọi API lên AWS Cognito để xác thực và nhận về **JWT Token**.
 
 ---
-Viá»‡c cáº¥u hÃ¬nh káº¿t ná»‘i Ä‘Ã£ hoÃ n táº¥t. Trong pháº§n tiáº¿p theo, chÃºng ta sáº½ **Kiá»ƒm thá»­ luá»“ng ÄÄƒng nháº­p/ÄÄƒng kÃ½** trá»±c tiáº¿p tá»« giao diá»‡n nhÃ©!
+Việc cấu hình kết nối đã xong. Ở phần tiếp theo, chúng ta sẽ bắt đầu **Kiểm thử luồng Đăng nhập/Đăng ký** trực tiếp trên giao diện!

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "1. Configure VPC"
 weight: 1
 chapter: false
