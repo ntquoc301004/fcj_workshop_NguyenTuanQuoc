@@ -117,6 +117,6 @@ Participating in **FCAJ Community Day 2026** was an inspiring and memorable expe
 
 ## Event Photos
 
-*Insert your event photos here.*
+![AWS Event 2](/images/4-EventParticipated/4.2-Event2/aws-event2.jpg)
 
 > Overall, FCAJ Community Day 2026 was an excellent opportunity to learn about the latest trends in Cloud Computing, Artificial Intelligence, and modern software engineering. Beyond the technical knowledge, the event inspired me to continue improving my skills, build meaningful projects, expand my professional network, and prepare for a successful career in the technology industry.
